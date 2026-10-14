@@ -6,7 +6,7 @@
 <meta name="description" content="Simulateur d'orientation post-bac pour les terminales du Sénégal : filières, universités, écoles, concours et bourses selon ta série (S1, S2, S3, L1, L2, LA, STEG, STIDD).">
 <meta name="theme-color" content="#101C4A">
 <meta property="og:title" content="Après le bac au Sénégal : simulateur d'orientation">
-<meta property="og:description" content="Choisis ta série et ta mention : découvre les filières, les débouchés, les concours et les bourses.">
+<meta property="og:description" content="Réponds à 5 questions : découvre les filières, les débouchés, les concours et les bourses qui te correspondent.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_SN">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E">
@@ -24,14 +24,13 @@
   --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#0A1030; --surface:#141F52; --ink:#EEF1FA; --muted:#A9B3D6; --line:#2B3772;
-  --primary:#2FB5A6; --primary-ink:#0A1030; --accent:#2FB5A6; --accent-text:#5CD6C8;
-  --sun:#F7D52D; --sun-soft:#3A3410; --warn:#FF8FA3; --warn-soft:#41172A; --ok-soft:#12403F; --focus:#8FB0FF;
-  --bar-bg:#1E2B72; --bar-ink:#FFFFFF; --bar-link:#F7D52D;
+    --primary:#2FB5A6; --primary-ink:#0A1030; --accent:#2FB5A6; --accent-text:#5CD6C8;
+    --sun:#F7D52D; --sun-soft:#3A3410; --warn:#FF8FA3; --warn-soft:#41172A; --ok-soft:#12403F; --focus:#8FB0FF;
+    --bar-bg:#1E2B72; --bar-ink:#FFFFFF; --bar-link:#F7D52D;
   }
 }
 :root[data-theme="dark"]{
@@ -42,173 +41,144 @@
 }
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 12px)}
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
-h1,h2,h3{font-family:var(--f-head);line-height:1.15;margin:0}
-button{font:inherit;color:inherit;cursor:pointer}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{font-family:var(--f-head);line-height:1.15;margin:0}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:inherit}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.wrap{max-width:760px;margin:0 auto;padding:20px 16px 56px}
+.wrap{max-width:720px;margin:0 auto;padding:14px 16px 40px}
+.wrap.has-nav{padding-bottom:110px}
+.strip{display:flex;height:6px;border-radius:3px;overflow:hidden}
+.strip i{flex:1}
+.strip i:nth-child(1){background:var(--ink)}.strip i:nth-child(2){background:#A71930}
+.strip i:nth-child(3){background:#239E91}.strip i:nth-child(4){background:#F7D52D}
+.hint{color:var(--muted);font-size:.95rem;margin:4px 0 14px}
+.small{font-size:.85rem;color:var(--muted)}
 
-/* En-tête */
-.head{padding:24px 0 8px}
-.head h1{font-size:clamp(2rem,7vw,3.1rem);font-weight:800;letter-spacing:-.02em}
-.head p{max-width:56ch;color:var(--muted);margin:12px 0 0;font-size:1.05rem}
+/* Boutons */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:56px;padding:12px 18px;border-radius:16px;border:2px solid var(--primary);background:var(--primary);color:var(--primary-ink);font-family:var(--f-head);font-weight:800;font-size:1.1rem;text-decoration:none;text-align:center}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.btn-sun{background:var(--sun);border-color:var(--sun);color:#101C4A}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-onbar{background:transparent;color:var(--bar-ink);border-color:rgba(255,255,255,.45)}
+.btn.sm{width:auto;min-height:44px;font-size:.95rem;padding:8px 16px;border-radius:12px}
+.stack{display:grid;gap:10px;margin-top:12px}
 
-/* Étapes */
-.step{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 16px;margin:16px 0}
-.step legend,.step .lg{font-family:var(--f-head);font-weight:800;font-size:1.25rem;padding:0;margin-bottom:4px}
-.step fieldset{border:0;margin:0;padding:0;min-width:0}
-.hint{color:var(--muted);font-size:.93rem;margin:2px 0 12px}
-.grid{display:grid;gap:8px}
-.g2{grid-template-columns:repeat(2,1fr)}
-.g4{grid-template-columns:repeat(2,1fr)}
-@media(min-width:560px){.g4{grid-template-columns:repeat(4,1fr)} .g2s{grid-template-columns:repeat(2,1fr)}}
-.opt{background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:10px 12px;text-align:left;min-height:48px}
-.opt b{display:block;font-family:var(--f-head);font-size:1.15rem}
-.opt span{display:block;font-size:.85rem;color:var(--muted);line-height:1.3}
-.opt[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
-.opt[aria-pressed="true"] span{color:var(--primary-ink);opacity:.9}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{background:var(--bg);border:2px solid var(--line);border-radius:999px;padding:8px 14px;min-height:44px}
-.chip[aria-pressed="true"]{background:var(--sun-soft);border-color:var(--sun);font-weight:600}
-select{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-height:48px}
-.lbl{display:block;font-weight:600;margin:14px 0 6px}
-.note-steb{background:var(--sun-soft);border-left:4px solid var(--sun);padding:8px 12px;border-radius:6px;font-size:.92rem;margin-top:10px}
-.cta{display:block;width:100%;background:var(--primary);color:var(--primary-ink);border:0;border-radius:12px;padding:16px;font-family:var(--f-head);font-weight:800;font-size:1.2rem;margin-top:8px}
-.cta[disabled]{opacity:.45;cursor:not-allowed}
-.link{background:none;border:0;color:var(--accent-text);text-decoration:underline;padding:6px 0;font-weight:600}
+/* Accueil */
+.hero{background:var(--bar-bg);color:var(--bar-ink);border-radius:24px;padding:28px 22px 24px;margin-top:14px}
+.hero h1{font-size:clamp(2.3rem,9vw,3.5rem);font-weight:800;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--sun)}
+.hero>p{margin:14px 0 0;font-size:1.08rem;opacity:.95;max-width:46ch}
+.perks{list-style:none;padding:0;margin:20px 0 24px;display:grid;gap:10px}
+.perks li{display:flex;gap:10px;align-items:flex-start}
+.perks li::before{content:"✓";flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#101C4A;font-weight:800;display:grid;place-items:center;font-size:.85rem;margin-top:1px}
+.how{display:grid;gap:12px;margin:22px 0 8px}
+.how div{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.how b{flex:none;width:40px;height:40px;border-radius:50%;background:var(--ok-soft);color:var(--accent-text);display:grid;place-items:center;font-family:var(--f-head);font-size:1.15rem}
+
+/* Questions */
+.qhead{display:flex;align-items:center;gap:12px;margin:10px 0 20px}
+.back{flex:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--surface);font-size:1.2rem}
+.prog{flex:1;display:flex;gap:5px}
+.prog i{flex:1;height:8px;border-radius:4px;background:var(--line)}
+.prog i.done{background:var(--accent)} .prog i.cur{background:var(--sun)}
+.count{font-weight:700;color:var(--muted);font-size:.9rem;white-space:nowrap}
+h2.q{font-size:clamp(1.7rem,6.5vw,2.2rem);font-weight:800;margin-bottom:4px}
+.cgrid{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:560px){.cgrid.two{grid-template-columns:1fr 1fr}}
+.choice{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:12px 16px;min-height:66px;background:var(--surface);border:2px solid var(--line);border-radius:16px}
+.choice .ic{flex:none;width:46px;height:46px;border-radius:12px;background:var(--bg);display:grid;place-items:center;font-family:var(--f-head);font-weight:800;font-size:1rem;text-align:center}
+.choice .tx{flex:1;min-width:0}
+.choice .tx b{display:block;font-weight:700}
+.choice .tx span{display:block;font-size:.9rem;color:var(--muted);line-height:1.3}
+.choice .ck{flex:none;font-weight:800;opacity:0}
+.choice[aria-pressed="true"]{background:var(--primary);color:var(--primary-ink);border-color:var(--primary)}
+.choice[aria-pressed="true"] .tx span{color:var(--primary-ink);opacity:.85}
+.choice[aria-pressed="true"] .ic{background:var(--sun);color:#101C4A}
+.choice[aria-pressed="true"] .ck{opacity:1}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:11px 16px;min-height:48px}
+.chip[aria-pressed="true"]{background:var(--sun);border-color:var(--sun);color:#101C4A;font-weight:700}
+.chip.sm{min-height:40px;padding:7px 14px;font-size:.93rem}
+.qfoot{position:sticky;bottom:0;padding:16px 0 12px;margin-top:14px;background:linear-gradient(to top,var(--bg) 72%,transparent)}
+.note{background:var(--sun-soft);border-left:4px solid var(--sun);padding:10px 14px;border-radius:8px;font-size:.92rem;margin-top:14px}
+.counter{font-weight:700;color:var(--accent-text);margin:0 0 12px}
 
 /* Résultats */
-#results{margin-top:28px}
-.profile{background:var(--bar-bg);color:var(--bar-ink);border-radius:14px;padding:16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
-.profile p{margin:0}
-.profile .link{color:var(--bar-link)}
-.tabs{display:flex;gap:4px;margin:18px 0 12px;overflow-x:auto;border-bottom:2px solid var(--line)}
-.tab{background:none;border:0;border-bottom:4px solid transparent;padding:10px 12px;font-weight:700;white-space:nowrap;color:var(--muted);margin-bottom:-2px}
-.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
-.near{background:var(--ok-soft);border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:.96rem}
-.near b{font-family:var(--f-head)}
+.rhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;background:var(--bar-bg);color:var(--bar-ink);border-radius:20px;padding:18px;margin-top:12px}
+.rhead .eyebrow{margin:0;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+.rhead h2{font-size:1.45rem;margin-top:2px}
+.pc{display:inline-block;background:rgba(255,255,255,.15);border-radius:999px;padding:3px 11px;font-size:.82rem;margin:8px 6px 0 0}
+h2.sec{font-size:1.35rem;margin:26px 0 6px}
+.filters{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;margin:10px -16px 0;padding-left:16px;padding-right:16px}
+.filters .chip{white-space:nowrap;flex:none}
 
-.card{background:var(--surface);border:1px solid var(--line);border-left-width:8px;border-radius:12px;margin:10px 0}
-.card.f3{border-left-color:var(--accent)} .card.f2{border-left-color:var(--sun)} .card.f1{border-left-color:var(--line)}
-.card summary{list-style:none;padding:14px;cursor:pointer;display:flex;gap:10px;align-items:flex-start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;margin:12px 0;overflow:hidden}
+.card.top{border:2px solid var(--accent)}
+.card summary{list-style:none;padding:14px;cursor:pointer;display:flex;gap:12px;align-items:flex-start}
 .card summary::-webkit-details-marker{display:none}
+.ci{flex:none;width:52px;height:52px;border-radius:16px;background:var(--ok-soft);display:grid;place-items:center;font-size:1.7rem}
 .card .main{flex:1;min-width:0}
+.rank{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-text)}
 .card h3{font-size:1.15rem;font-weight:800}
-.meta{color:var(--muted);font-size:.88rem;margin-top:3px}
+.facts{display:flex;flex-wrap:wrap;gap:2px 14px;color:var(--muted);font-size:.88rem;margin-top:4px}
+.why{margin:8px 0 0;font-size:.92rem;color:var(--accent-text);font-weight:600}
 .badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.b{font-size:.78rem;font-weight:600;padding:3px 9px;border-radius:999px;border:1px solid var(--line);background:var(--bg)}
-.b.fit{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.b{font-size:.78rem;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--bg)}
+.b.fit{background:var(--accent);border-color:var(--accent);color:#101C4A}
 .b.fit2{background:var(--sun-soft);border-color:var(--sun)}
 .b.warn{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
-.star{background:none;border:0;font-size:1.5rem;line-height:1;padding:6px;min-width:44px;min-height:44px;color:var(--muted)}
+.star{flex:none;background:none;border:0;font-size:1.6rem;line-height:1;min-width:44px;min-height:44px;color:var(--muted)}
 .star[aria-pressed="true"]{color:var(--warn)}
-.chev{align-self:center;color:var(--muted);transition:transform .15s}
-details[open] .chev{transform:rotate(90deg)}
-.body{padding:0 14px 16px;border-top:1px dashed var(--line)}
-.body h4{font-family:var(--f-head);font-size:1rem;margin:14px 0 4px}
+.chev{flex:none;align-self:center;color:var(--muted);transition:transform .15s;font-size:1.3rem}
+details[open]>summary .chev{transform:rotate(90deg)}
+.body{padding:2px 16px 18px;border-top:1px dashed var(--line)}
+.body h4{font-size:1rem;margin:16px 0 6px}
 .body ul{margin:0;padding-left:20px}
-.body li{margin:2px 0}
-.alert{background:var(--warn-soft);border-left:4px solid var(--warn);padding:8px 12px;border-radius:6px;margin-top:12px;font-size:.93rem}
-.tip{background:var(--sun-soft);border-left:4px solid var(--sun);padding:8px 12px;border-radius:6px;margin-top:12px;font-size:.93rem}
-.more{display:block;margin:14px auto 0}
-
-.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.body li{margin:3px 0}
+.dchips{display:flex;flex-wrap:wrap;gap:8px}
+.dchips span{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:.9rem}
+.alert{background:var(--warn-soft);border-left:4px solid var(--warn);padding:10px 14px;border-radius:8px;margin-top:14px;font-size:.93rem}
+.tip{background:var(--sun-soft);border-left:4px solid var(--sun);padding:10px 14px;border-radius:8px;margin-top:14px;font-size:.93rem}
+.near{background:var(--ok-soft);border-radius:16px;padding:14px 16px;margin:16px 0}
+.near summary{font-weight:700;cursor:pointer}
+.near p{margin:8px 0 0;font-size:.95rem}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;display:flex;gap:14px}
+.item .ci{width:48px;height:48px;font-size:1.5rem}
 .item h3{font-size:1.1rem}
-.item p{margin:6px 0 0}
+.item .meta{color:var(--accent-text);font-weight:600;font-size:.88rem;margin-top:2px}
+.item p{margin:8px 0 0;font-size:.97rem}
 .item .k{font-weight:700}
-.list-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:14px 0}
-.list-box summary{font-weight:700;cursor:pointer}
-textarea{width:100%;min-height:130px;margin-top:10px;font:inherit;font-size:.9rem;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px}
-.steps-tl{margin:0;padding:0;list-style:none;border-left:3px solid var(--accent)}
-.steps-tl li{padding:2px 0 14px 16px;position:relative}
-.steps-tl li::before{content:"";position:absolute;left:-9px;top:6px;width:15px;height:15px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
-.steps-tl b{font-family:var(--f-head)}
-.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
-.strip{display:flex;height:6px;border-radius:3px;overflow:hidden;margin-top:8px}.strip i{flex:1}.strip i:nth-child(1){background:var(--ink)}.strip i:nth-child(2){background:#A71930}.strip i:nth-child(3){background:#239E91}.strip i:nth-child(4){background:#F7D52D}
-.sr{position:absolute;left:-9999px}
+.tl{margin:14px 0 0;padding:0;list-style:none;border-left:3px solid var(--accent)}
+.tl li{padding:0 0 16px 18px;position:relative}
+.tl li::before{content:"";position:absolute;left:-10px;top:5px;width:16px;height:16px;border-radius:50%;background:var(--surface);border:4px solid var(--accent)}
+.tl b{font-family:var(--f-head);font-size:1.05rem}
+.rules{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px 14px 18px}
+.rules ul{margin:0;padding-left:20px}.rules li{margin:6px 0}
+textarea{width:100%;min-height:140px;font:inherit;font-size:.95rem;background:var(--surface);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:12px;margin-top:8px}
+.li{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:8px 0}
+.li .ci{width:42px;height:42px;font-size:1.3rem;border-radius:12px}
+.li span.t{flex:1;font-weight:600}
+.empty{text-align:center;padding:36px 12px;color:var(--muted)}
+.empty .big{font-size:2.6rem}
+.foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+
+/* Barre du bas */
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bnav div{max-width:720px;margin:0 auto;display:flex}
+.bnav button{flex:1;background:none;border:0;border-top:4px solid transparent;padding:8px 2px 8px;min-height:62px;display:flex;flex-direction:column;align-items:center;gap:1px;color:var(--muted);font-size:.72rem;font-weight:600;position:relative}
+.bnav button .e{font-size:1.4rem;line-height:1.2}
+.bnav button[aria-current="page"]{color:var(--ink);border-top-color:var(--accent);font-weight:800}
+.bnav .n{position:absolute;top:4px;left:calc(50% + 8px);min-width:18px;height:18px;border-radius:9px;background:var(--warn);color:#fff;font-size:.7rem;display:grid;place-items:center;padding:0 4px}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-
-<header class="head">
-  <h1>Après le bac, où aller&nbsp;?</h1>
-  <p>Choisis ta série, ta mention probable et ce qui t'intéresse. Le simulateur te propose des filières, des établissements, des concours et des bourses à explorer.</p>
-</header>
-
-<main>
-<section id="wizard" aria-label="Ton profil">
-
-  <div class="step">
-    <fieldset>
-      <legend>1. Ta série du bac</legend>
-      <p class="hint">Touche la série que tu passes (ou que tu as obtenue).</p>
-      <div class="grid g2 g4" id="series"></div>
-      <div class="note-steb">Au Sénégal, l'ancienne série G s'appelle aujourd'hui <b>STEG</b> (économie et gestion). </div>
-    </fieldset>
-  </div>
-
-  <div class="step">
-    <fieldset>
-      <legend>2. Ta mention probable</legend>
-      <p class="hint">Estime-la d'après tes moyennes. Elle change les filières sélectives à viser.</p>
-      <div class="grid g2 g4" id="mentions"></div>
-    </fieldset>
-  </div>
-
-  <div class="step">
-    <fieldset>
-      <legend>3. Ce qui t'attire</legend>
-      <p class="hint">Choisis jusqu'à 5 centres d'intérêt.</p>
-      <div class="chips" id="interets"></div>
-    </fieldset>
-  </div>
-
-  <div class="step">
-    <fieldset>
-      <legend>4. Ta situation</legend>
-      <label class="lbl" for="region">Où habites-tu&nbsp;?</label>
-      <select id="region"></select>
-      <span class="lbl" id="bud-l">Ta famille peut-elle payer une école privée&nbsp;?</span>
-      <div class="grid g2s" id="budget" role="group" aria-labelledby="bud-l" style="grid-template-columns:repeat(3,1fr)"></div>
-    </fieldset>
-  </div>
-
-  <button class="cta" id="go" disabled>Voir mes pistes</button>
-  <p class="hint" id="go-hint" style="text-align:center;margin-top:8px">Choisis une série et une mention pour continuer.</p>
-</section>
-
-<section id="results" hidden aria-live="polite">
-  <div class="profile">
-    <p id="profile-txt"></p>
-    <button class="link" id="edit">Modifier mon profil</button>
-  </div>
-
-  <details class="list-box" id="mylist">
-    <summary>Ma liste (<span id="fav-n">0</span>)</summary>
-    <p class="hint" id="fav-empty">Touche l'étoile d'une filière pour l'ajouter ici.</p>
-    <div id="fav-body" hidden>
-      <textarea id="fav-text" readonly aria-label="Ma liste de filières"></textarea>
-      <button class="link" id="copy">Copier la liste</button>
-    </div>
-  </details>
-
-  <div class="tabs" role="tablist" aria-label="Résultats">
-    <button class="tab" role="tab" id="t-fil" aria-selected="true" data-tab="fil">Filières</button>
-    <button class="tab" role="tab" id="t-bou" aria-selected="false" data-tab="bou">Bourses</button>
-    <button class="tab" role="tab" id="t-con" aria-selected="false" data-tab="con">Concours</button>
-    <button class="tab" role="tab" id="t-cal" aria-selected="false" data-tab="cal">Démarches</button>
-  </div>
-  <div id="panel" role="tabpanel"></div>
-</section>
-</main>
-
-<footer class="foot">
-  <p>Cet outil aide à réfléchir, il ne remplace pas les sources officielles. Les places, conditions et dates changent chaque année : vérifie toujours sur <b>orientation.campusen.sn</b>, <b>mesrisenegal.sn</b>, <b>officedubac.sn</b> et les sites des écoles. Données rassemblées en octobre 2026 ; les mentions « à confirmer » signalent des informations à contrôler auprès de l'établissement.</p>
-</footer>
+<div class="wrap" id="wrap">
+  <div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <main id="app" aria-live="polite"></main>
 </div>
+<nav class="bnav" id="bnav" aria-label="Navigation" hidden></nav>
 
 <script>
 /* ============ DONNÉES ============ */
@@ -447,82 +417,40 @@ const BOURSES = [
   comment:"Demande à chaque école privée si elle offre une réduction ou une bourse selon la mention. Certaines entreprises et fondations proposent aussi des aides."}
 ];
 
+
+
+const EMO_INT = {sante:"🩺",sciences:"🔬",maths:"🧮",tech:"💻",ingenierie:"🛠️",nature:"🌱",eco:"💰",droit:"⚖️",langues:"🗣️",lettres:"✍️",social:"🤝",com:"📣",ordre:"🛡️",sport:"⚽",art:"🎨",enseigner:"🧑‍🏫",entreprendre:"🚀"};
+const EMO_PROG = {medecine:"🩺",paramed:"💉",bio:"🧬",mathphy:"📐",info:"💻",ingenieur:"⚙️",technique:"🔧",btp:"🏗️",energie:"⚡",agro:"🌾",statdata:"📊",eco:"📈",gestion:"💼",droit:"⚖️",lettres:"📚",sh:"🌍",arabe:"📖",journal:"🎙️",enseign:"🧑‍🏫",uniforme:"🛡️",sport:"🏅",arts:"🎨",logistique:"✈️"};
+const EMO_BOURSE = {nat:"🎓",coud:"🏠",amci:"🇲🇦",csc:"🇨🇳",tr:"🇹🇷",hu:"🇭🇺",fr:"🇫🇷",prive:"🏫"};
+const BUDGETS = [
+  {k:"oui", t:"Oui, sans problème", d:"Je peux aussi regarder les écoles privées", e:"👍"},
+  {k:"peu", t:"Un peu, avec des limites", d:"Public d'abord, privé si ça vaut le coup", e:"🤏"},
+  {k:"non", t:"Non, je vise le public et les bourses", d:"On privilégie les filières peu coûteuses", e:"🎯"}
+];
+const NAV = [
+  {k:"fil", e:"🎓", t:"Filières"}, {k:"liste", e:"⭐", t:"Ma liste"},
+  {k:"bou", e:"💰", t:"Bourses"}, {k:"con", e:"📝", t:"Concours"}, {k:"dem", e:"🗓️", t:"Démarches"}
+];
+
 /* ============ ÉTAT ============ */
-const state = {serie:null, mention:null, interets:new Set(), region:"Dakar", budget:null, favs:new Set(), showAll:false, tab:"fil"};
+const state = {screen:"home", serie:null, mention:null, interets:new Set(), region:"Dakar", budget:null, favs:new Set(), tab:"fil", filter:"all", showAll:false};
 const $ = s => document.querySelector(s);
+const app = $("#app");
 
 function load(){
   try{
-    const raw = localStorage.getItem("postbac-sn-v1");
-    if(!raw) return;
-    const d = JSON.parse(raw);
+    const d = JSON.parse(localStorage.getItem("postbac-sn-v2")||"null"); if(!d) return;
     state.serie = d.serie ?? null; state.mention = d.mention ?? null;
     state.interets = new Set(d.interets||[]); state.region = d.region||"Dakar";
     state.budget = d.budget ?? null; state.favs = new Set(d.favs||[]);
   }catch(e){}
 }
 function save(){
-  try{
-    localStorage.setItem("postbac-sn-v1", JSON.stringify({
-      serie:state.serie, mention:state.mention, interets:[...state.interets],
-      region:state.region, budget:state.budget, favs:[...state.favs]
-    }));
-  }catch(e){}
+  try{ localStorage.setItem("postbac-sn-v2", JSON.stringify({serie:state.serie,mention:state.mention,interets:[...state.interets],region:state.region,budget:state.budget,favs:[...state.favs]})); }catch(e){}
 }
-
-/* ============ FORMULAIRE ============ */
-function pressed(btn, on){ btn.setAttribute("aria-pressed", on ? "true" : "false"); }
-
-function buildForm(){
-  $("#series").innerHTML = SERIES.map(s =>
-    `<button class="opt" data-serie="${s.k}" aria-pressed="false"><b>${s.k}</b><span>${s.t}</span></button>`).join("");
-  $("#mentions").innerHTML = MENTIONS.map(m =>
-    `<button class="opt" data-mention="${m.k}" aria-pressed="false"><b>${m.t}</b><span>${m.r}</span></button>`).join("");
-  $("#interets").innerHTML = Object.entries(INTERETS).map(([k,v]) =>
-    `<button class="chip" data-int="${k}" aria-pressed="false">${v}</button>`).join("");
-  $("#region").innerHTML = Object.keys(REGIONS).map(r => `<option>${r}</option>`).join("");
-  $("#budget").innerHTML = [["oui","Oui"],["peu","Un peu"],["non","Non"]].map(([k,v]) =>
-    `<button class="opt" data-budget="${k}" aria-pressed="false"><b style="font-size:1rem">${v}</b></button>`).join("");
-  syncForm();
-}
-function syncForm(){
-  document.querySelectorAll("[data-serie]").forEach(b => pressed(b, b.dataset.serie === state.serie));
-  document.querySelectorAll("[data-mention]").forEach(b => pressed(b, state.mention !== null && Number(b.dataset.mention) === state.mention));
-  document.querySelectorAll("[data-int]").forEach(b => pressed(b, state.interets.has(b.dataset.int)));
-  document.querySelectorAll("[data-budget]").forEach(b => pressed(b, b.dataset.budget === state.budget));
-  $("#region").value = state.region;
-  const ready = state.serie !== null && state.mention !== null;
-  $("#go").disabled = !ready;
-  $("#go-hint").hidden = ready;
-}
-
-document.addEventListener("click", e => {
-  const t = e.target.closest("button, summary"); if(!t) return;
-  if(t.dataset.serie){ state.serie = t.dataset.serie; syncForm(); save(); }
-  else if(t.dataset.mention !== undefined){ state.mention = Number(t.dataset.mention); syncForm(); save(); }
-  else if(t.dataset.int){
-    const k = t.dataset.int;
-    if(state.interets.has(k)) state.interets.delete(k);
-    else if(state.interets.size < 5) state.interets.add(k);
-    syncForm(); save();
-  }
-  else if(t.dataset.budget){ state.budget = t.dataset.budget; syncForm(); save(); }
-  else if(t.dataset.tab){ state.tab = t.dataset.tab; renderTabs(); }
-  else if(t.dataset.fav){
-    e.preventDefault(); e.stopPropagation();
-    const id = t.dataset.fav;
-    if(state.favs.has(id)) state.favs.delete(id); else state.favs.add(id);
-    const on = state.favs.has(id);
-    t.setAttribute("aria-pressed", on ? "true" : "false");
-    t.textContent = on ? "★" : "☆";
-    save(); renderFavs();
-  }
-  else if(t.id === "go"){ showResults(); }
-  else if(t.id === "edit"){ $("#wizard").scrollIntoView({behavior:"smooth"}); }
-  else if(t.id === "more"){ state.showAll = true; renderTabs(); }
-  else if(t.id === "copy"){ copyFavs(); }
-});
-$("#region").addEventListener("change", e => { state.region = e.target.value; save(); if(!$("#results").hidden) renderTabs(); });
+const hasProfile = () => state.serie !== null && state.mention !== null && state.budget !== null;
+const wa = t => "https://wa.me/?text=" + encodeURIComponent(t);
+const siteUrl = () => { try{ return location.href.split("#")[0]; }catch(e){ return ""; } };
 
 /* ============ CALCUL ============ */
 function evaluate(p){
@@ -530,148 +458,265 @@ function evaluate(p){
   const fit = p.ideal.includes(s) ? 3 : (p.ok.includes(s) ? 1.5 : 0);
   if(!fit) return null;
   let sc = fit;
-  const ov = p.int.filter(i => state.interets.has(i)).length;
-  sc += ov * 2.5;
+  const common = p.int.filter(i => state.interets.has(i));
+  sc += common.length * 2.5;
   const flags = [];
   if(state.mention >= 0 && state.mention < p.min){ sc -= (p.min - state.mention) * 3; flags.push("mention"); }
   const onlyPrive = p.acces.length && p.acces.every(a => a === "prive");
   if(state.budget === "non" && onlyPrive){ sc -= 3; flags.push("payant"); }
-  else if(state.budget === "non" && p.acces.includes("prive") && p.acces.length === 1){ flags.push("payant"); }
-  return {p, sc, flags, fit, ov};
+  return {p, sc, flags, fit, common};
 }
-function label(r){
+function labelOf(r){
   if(state.interets.size === 0) return r.fit === 3 ? ["Adapté à ta série","fit"] : ["Possible avec ta série","fit2"];
   if(r.sc >= 8) return ["Très adapté","fit"];
   if(r.sc >= 4.5) return ["Adapté","fit2"];
   return ["À explorer",""];
 }
-function ranked(){
-  return PROGS.map(evaluate).filter(Boolean).sort((a,b) => b.sc - a.sc);
+const ranked = () => PROGS.map(evaluate).filter(Boolean).sort((a,b) => b.sc - a.sc);
+function whyText(r){
+  if(r.common.length){
+    const n = r.common.map(i => INTERETS[i].toLowerCase());
+    return "Correspond à ce que tu aimes : " + n.slice(0,2).join(" et ") + ".";
+  }
+  return r.fit === 3 ? "Fait pour la série " + state.serie + "." : "Ouvert aux élèves de " + state.serie + ".";
+}
+const passFilter = r => state.filter === "all"
+  || (state.filter === "public" && (r.p.acces.includes("campusen") || r.p.acces.includes("cpge")))
+  || (state.filter === "concours" && r.p.acces.includes("concours"))
+  || (state.filter === "prive" && r.p.acces.includes("prive"));
+
+/* ============ ÉCRANS ============ */
+function go(screen, tab){
+  state.screen = screen; if(tab) state.tab = tab;
+  render(); window.scrollTo(0,0);
+}
+function render(){
+  const s = state.screen;
+  const nav = $("#bnav"), wrap = $("#wrap");
+  if(s === "res"){ app.innerHTML = viewRes(); nav.hidden = false; renderNav(); wrap.classList.add("has-nav"); }
+  else{
+    nav.hidden = true; wrap.classList.remove("has-nav");
+    app.innerHTML = s === "home" ? viewHome() : viewQ(s);
+  }
+}
+function renderNav(){
+  $("#bnav").innerHTML = "<div>" + NAV.map(n =>
+    `<button data-tab="${n.k}" ${state.tab === n.k ? 'aria-current="page"' : ""}><span class="e" aria-hidden="true">${n.e}</span>${n.t}${n.k === "liste" && state.favs.size ? `<span class="n">${state.favs.size}</span>` : ""}</button>`
+  ).join("") + "</div>";
 }
 
-/* ============ AFFICHAGE ============ */
-function showResults(){
-  $("#results").hidden = false;
-  const s = SERIES.find(x => x.k === state.serie);
-  const m = MENTIONS.find(x => x.k === state.mention);
-  $("#profile-txt").innerHTML = `<b>${s.k}</b> · mention ${m.k === -1 ? "inconnue" : m.t.toLowerCase()} · ${state.interets.size} centre${state.interets.size>1?"s":""} d'intérêt`;
-  state.tab = "fil"; state.showAll = false;
-  renderTabs(); renderFavs();
-  $("#results").scrollIntoView({behavior:"smooth"});
+function viewHome(){
+  const resume = hasProfile() ? `<button class="btn btn-onbar" data-act="resume">Revoir mes derniers résultats</button>` : "";
+  return `<section class="hero">
+    <h1>Après le bac, <em>où aller&nbsp;?</em></h1>
+    <p>Réponds à 5 petites questions. On te montre les filières, les écoles, les concours et les bourses qui te correspondent.</p>
+    <ul class="perks">
+      <li>Gratuit, sans inscription</li>
+      <li>Tes réponses restent sur ton téléphone</li>
+      <li>Pour toutes les séries du bac sénégalais</li>
+    </ul>
+    <div class="stack"><button class="btn btn-sun" data-act="start">Commencer</button>${resume}</div>
+  </section>
+  <div class="how">
+    <div><b>1</b><span>Tu réponds à 5 questions rapides</span></div>
+    <div><b>2</b><span>Tu découvres tes pistes classées pour toi</span></div>
+    <div><b>3</b><span>Tu gardes ta liste et tu la partages</span></div>
+  </div>
+  <p class="foot">Cet outil aide à réfléchir, il ne remplace pas les sources officielles. Vérifie toujours sur orientation.campusen.sn, mesrisenegal.sn et les sites des écoles. Données de octobre 2026.</p>`;
 }
 
-function renderTabs(){
-  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === state.tab ? "true" : "false"));
-  const p = $("#panel");
-  if(state.tab === "fil") p.innerHTML = viewFilieres();
-  else if(state.tab === "bou") p.innerHTML = viewBourses();
-  else if(state.tab === "con") p.innerHTML = viewConcours();
-  else p.innerHTML = viewDemarches();
+function qHead(n){
+  const segs = [1,2,3,4,5].map(i => `<i class="${i < n ? "done" : (i === n ? "cur" : "")}"></i>`).join("");
+  return `<div class="qhead"><button class="back" data-act="back" aria-label="Retour">←</button><div class="prog" aria-hidden="true">${segs}</div><span class="count">${n} sur 5</span></div>`;
+}
+function viewQ(s){
+  if(s === "q1"){
+    return qHead(1) + `<h2 class="q">Quelle est ta série&nbsp;?</h2><p class="hint">Touche ta série du bac, tu passes à la question suivante.</p>
+    <div class="cgrid two">${SERIES.map(x => `<button class="choice" data-serie="${x.k}" aria-pressed="${state.serie === x.k}"><span class="ic">${x.k}</span><span class="tx"><b>${x.k}</b><span>${x.t}</span></span><span class="ck" aria-hidden="true">✓</span></button>`).join("")}</div>
+    <div class="note">Au Sénégal, l'ancienne série G s'appelle <b>STEG</b>. </div>`;
+  }
+  if(s === "q2"){
+    return qHead(2) + `<h2 class="q">Quelle mention vises-tu&nbsp;?</h2><p class="hint">Une estimation suffit. Elle change les filières sélectives à viser.</p>
+    <div class="cgrid">${MENTIONS.map(m => `<button class="choice" data-mention="${m.k}" aria-pressed="${state.mention === m.k}"><span class="ic">${m.k === -1 ? "?" : ["10","12","14","16"][m.k]}</span><span class="tx"><b>${m.t}</b><span>${m.r}</span></span><span class="ck" aria-hidden="true">✓</span></button>`).join("")}</div>`;
+  }
+  if(s === "q3"){
+    const n = state.interets.size;
+    return qHead(3) + `<h2 class="q">Qu'est-ce qui t'attire&nbsp;?</h2><p class="hint">Choisis jusqu'à 5 domaines. Pas de panique : tu peux passer cette étape.</p>
+    <p class="counter">${n} sur 5 choisis</p>
+    <div class="chips">${Object.entries(INTERETS).map(([k,v]) => `<button class="chip" data-int="${k}" aria-pressed="${state.interets.has(k)}"><span aria-hidden="true">${EMO_INT[k]}</span>${v}</button>`).join("")}</div>
+    <div class="qfoot"><button class="btn" data-act="next">${n ? "Continuer" : "Passer cette étape"}</button></div>`;
+  }
+  if(s === "q4"){
+    return qHead(4) + `<h2 class="q">Où habites-tu&nbsp;?</h2><p class="hint">On te montrera les universités et les instituts proches de chez toi.</p>
+    <div class="cgrid">${Object.keys(REGIONS).map(r => `<button class="choice" data-region="${r}" aria-pressed="${state.region === r}"><span class="ic" aria-hidden="true">📍</span><span class="tx"><b>${r}</b></span><span class="ck" aria-hidden="true">✓</span></button>`).join("")}</div>
+    <div class="qfoot"><button class="btn" data-act="next">Continuer</button></div>`;
+  }
+  return qHead(5) + `<h2 class="q">Et côté budget&nbsp;?</h2><p class="hint">Ta famille peut-elle payer une école privée ? Cela change l'ordre des pistes et des bourses.</p>
+    <div class="cgrid">${BUDGETS.map(b => `<button class="choice" data-budget="${b.k}" aria-pressed="${state.budget === b.k}"><span class="ic" aria-hidden="true">${b.e}</span><span class="tx"><b>${b.t}</b><span>${b.d}</span></span><span class="ck" aria-hidden="true">✓</span></button>`).join("")}</div>
+    <div class="qfoot"><button class="btn btn-sun" data-act="next" ${state.budget ? "" : "disabled"}>Voir mes pistes</button></div>`;
 }
 
-function card(r){
-  const p = r.p;
-  const [lt, lc] = label(r);
+function viewRes(){
+  const s = SERIES.find(x => x.k === state.serie), m = MENTIONS.find(x => x.k === state.mention);
+  const pcs = [`Mention : ${m.k === -1 ? "inconnue" : m.t.toLowerCase()}`, state.region, ...[...state.interets].map(i => EMO_INT[i] + " " + INTERETS[i])]
+    .map(x => `<span class="pc">${x}</span>`).join("");
+  const head = `<header class="rhead"><div><p class="eyebrow">Ton profil</p><h2>Série ${s.k}</h2><div>${pcs}</div></div><button class="btn btn-onbar sm" data-act="edit">Modifier</button></header>`;
+  let body = "";
+  if(state.tab === "fil") body = viewFil();
+  else if(state.tab === "liste") body = viewListe();
+  else if(state.tab === "bou") body = viewBourses();
+  else if(state.tab === "con") body = viewConcours();
+  else body = viewDemarches();
+  return head + body;
+}
+
+function card(r, rank){
+  const p = r.p, [lt, lc] = labelOf(r), star = state.favs.has(p.id);
   const acc = p.acces.map(a => `<span class="b">${ACCES[a]}</span>`).join("");
   const warn = r.flags.includes("mention") ? `<span class="b warn">Mention exigeante</span>` : "";
   const pay = r.flags.includes("payant") ? `<span class="b warn">Surtout payant</span>` : "";
-  const f = r.fit === 3 ? "f3" : (r.sc >= 4.5 ? "f2" : "f1");
-  const star = state.favs.has(p.id);
-  const ul = a => a.length ? `<ul>${a.map(x => `<li>${x}</li>`).join("")}</ul>` : `<p class="hint">Peu ou pas d'offre publique spécifique : vois les établissements publics ci-dessus.</p>`;
-  return `<details class="card ${f}">
+  const ul = a => a.length ? `<ul>${a.map(x => `<li>${x}</li>`).join("")}</ul>` : "";
+  return `<details class="card ${rank ? "top" : ""}">
     <summary>
+      <span class="ci" aria-hidden="true">${EMO_PROG[p.id]}</span>
       <div class="main">
+        ${rank ? `<div class="rank">Piste n°${rank}</div>` : ""}
         <h3>${p.nom}</h3>
-        <div class="meta">${p.dom} · ${p.duree}</div>
+        <div class="facts"><span>⏱ ${p.duree}</span><span>${p.dom}</span></div>
+        ${rank ? `<p class="why">${whyText(r)}</p>` : ""}
         <div class="badges"><span class="b ${lc}">${lt}</span>${acc}${warn}${pay}</div>
       </div>
       <button class="star" data-fav="${p.id}" aria-pressed="${star}" aria-label="${star ? "Retirer de ma liste" : "Ajouter à ma liste"} : ${p.nom}">${star ? "★" : "☆"}</button>
       <span class="chev" aria-hidden="true">›</span>
     </summary>
     <div class="body">
-      <h4>Débouchés</h4>${ul(p.deb)}
+      <h4>Ce que tu peux devenir</h4><div class="dchips">${p.deb.map(d => `<span>${d}</span>`).join("")}</div>
       <h4>Où étudier (public)</h4>${ul(p.pub)}
       ${p.priv.length ? `<h4>Écoles privées</h4>${ul(p.priv)}` : ""}
-      ${r.flags.includes("mention") ? `<div class="alert">Cette filière est sélective et demande souvent au moins une mention ${["passable","assez bien","bien","très bien"][p.min]}. Garde-la en vœu ambitieux et prévois un choix de repli.</div>` : ""}
-      <div class="tip">${p.conseil}</div>
+      ${r.flags.includes("mention") ? `<div class="alert">Filière sélective : elle demande souvent au moins une mention ${["passable","assez bien","bien","très bien"][p.min]}. Garde-la comme vœu ambitieux et prévois un choix de repli.</div>` : ""}
+      <div class="tip">💡 ${p.conseil}</div>
     </div>
   </details>`;
 }
 
-function viewFilieres(){
-  const list = ranked();
-  const reg = REGIONS[state.region];
-  const near = `<div class="near"><b>Près de chez toi (${state.region}) :</b> ${[...reg.pub, ...reg.isep].join(", ")}.<br>Étudier près de chez toi réduit le coût du logement, mais certaines filières (médecine, ingénieur, journalisme) ne sont proposées que dans quelques villes.</div>`;
-  const shown = state.showAll ? list : list.slice(0, 8);
-  const more = (!state.showAll && list.length > 8) ? `<button class="link more" id="more">Voir les ${list.length - 8} autres filières</button>` : "";
-  const intro = state.interets.size === 0 ? `<p class="hint">Astuce : choisis des centres d'intérêt pour que le classement soit plus précis.</p>` : "";
-  return near + intro + shown.map(card).join("") + more;
+function filters(){
+  const f = [["all","Toutes"],["public","Public (Campusen)"],["concours","Sur concours"],["prive","Écoles privées"]];
+  return `<div class="filters" role="group" aria-label="Filtrer">${f.map(([k,v]) => `<button class="chip sm" data-filter="${k}" aria-pressed="${state.filter === k}">${v}</button>`).join("")}</div>`;
+}
+
+function viewFil(){
+  const list = ranked(), reg = REGIONS[state.region];
+  let html = filters();
+  if(state.filter === "all"){
+    html += `<h2 class="sec">Tes 3 meilleures pistes</h2><p class="hint">Touche une piste pour voir les débouchés et les écoles. Touche l'étoile pour la garder.</p>`;
+    html += list.slice(0,3).map((r,i) => card(r, i+1)).join("");
+    const rest = list.slice(3), shown = state.showAll ? rest : rest.slice(0,5);
+    if(rest.length){
+      html += `<h2 class="sec">Autres pistes possibles</h2>` + shown.map(r => card(r)).join("");
+      if(!state.showAll && rest.length > 5) html += `<button class="btn btn-ghost" data-act="more">Voir les ${rest.length - 5} autres pistes</button>`;
+    }
+  }else{
+    const f = list.filter(passFilter);
+    html += f.length ? f.map(r => card(r)).join("") : `<div class="empty"><div class="big">🔍</div><p>Aucune piste de ce type pour ton profil.</p></div>`;
+  }
+  html += `<details class="near"><summary>📍 Près de chez toi : ${state.region}</summary><p>${[...reg.pub, ...reg.isep].join(", ")}.</p><p>Étudier près de chez toi réduit le coût du logement, mais certaines filières (médecine, ingénieur, journalisme) ne sont proposées que dans quelques villes.</p></details>`;
+  html += `<a class="btn btn-ghost" target="_blank" rel="noopener" href="${wa("Découvre ce simulateur d'orientation après le bac au Sénégal : " + siteUrl())}">📲 Partager avec un ami sur WhatsApp</a>`;
+  html += `<p class="foot">Les places, conditions et dates changent chaque année. Vérifie sur orientation.campusen.sn, mesrisenegal.sn et les sites des écoles.</p>`;
+  return html;
+}
+
+function favText(){
+  return [...state.favs].map(id => PROGS.find(p => p.id === id)).filter(Boolean).map((p,i) => `${i+1}. ${p.nom} (${p.duree})`).join("\n");
+}
+function viewListe(){
+  if(!state.favs.size) return `<div class="empty"><div class="big">⭐</div><h2 class="sec" style="margin-top:8px">Ta liste est vide</h2><p>Touche l'étoile d'une filière pour la garder ici.</p><button class="btn btn-ghost" data-tab="fil">Voir les filières</button></div>`;
+  const items = [...state.favs].map(id => PROGS.find(p => p.id === id)).filter(Boolean).map(p =>
+    `<div class="li"><span class="ci" aria-hidden="true">${EMO_PROG[p.id]}</span><span class="t">${p.nom}</span><button class="star" data-fav="${p.id}" data-rerender="1" aria-pressed="true" aria-label="Retirer de ma liste : ${p.nom}">★</button></div>`).join("");
+  const txt = "Mes pistes après le bac :\n" + favText();
+  return `<h2 class="sec">Ma liste</h2><p class="hint">Garde les filières qui t'intéressent, puis parles-en avec tes parents et ton conseiller d'orientation.</p>${items}
+  <textarea id="fav-text" readonly aria-label="Ma liste">${txt}</textarea>
+  <div class="stack"><button class="btn" data-act="copy">Copier ma liste</button><a class="btn btn-ghost" target="_blank" rel="noopener" href="${wa(txt)}">📲 Envoyer sur WhatsApp</a></div>`;
 }
 
 function viewBourses(){
-  let list = BOURSES.slice();
   const needAid = state.budget === "non" || state.budget === "peu";
+  const list = BOURSES.slice();
   if(!needAid) list.sort((a,b) => (a.soc ? 1 : 0) - (b.soc ? 1 : 0));
-  const intro = needAid
-    ? `<p class="hint">Comme ta famille ne peut pas tout financer, commence par les aides nationales : elles dépendent surtout de ton inscription dans un établissement public.</p>`
-    : `<p class="hint">Les bourses à l'étranger sont très sélectives. Prépare ton dossier tôt.</p>`;
-  const warn = `<div class="alert">Aucune bourse officielle ne demande de payer pour être sélectionné. Méfie-toi des faux sites et des intermédiaires : passe uniquement par les sites des ministères, des ambassades et des organismes officiels.</div>`;
-  const items = list.map(b => `<div class="item"><h3>${b.nom}</h3><div class="meta">${b.type}</div>
-    <p><span class="k">Pour qui :</span> ${b.pour}</p><p><span class="k">Comment faire :</span> ${b.comment}</p></div>`).join("");
-  return intro + items + warn;
+  const intro = needAid ? "Ta famille ne peut pas tout financer : commence par les aides nationales. Elles dépendent surtout de ton inscription dans un établissement public." : "Les bourses à l'étranger sont très sélectives. Prépare ton dossier tôt.";
+  return `<h2 class="sec">Bourses et aides</h2><p class="hint">${intro}</p>` +
+    list.map(b => `<div class="item"><span class="ci" aria-hidden="true">${EMO_BOURSE[b.id]}</span><div><h3>${b.nom}</h3><div class="meta">${b.type}</div><p><span class="k">Pour qui :</span> ${b.pour}</p><p><span class="k">Comment faire :</span> ${b.comment}</p></div></div>`).join("") +
+    `<div class="alert">⚠️ Aucune bourse officielle ne demande de payer pour être sélectionné. Méfie-toi des faux sites et des intermédiaires : passe uniquement par les ministères, les ambassades et les organismes officiels.</div>`;
 }
 
 function viewConcours(){
-  const top = ranked().slice(0, 12).filter(r => r.p.conc.length);
-  const seen = new Set();
-  const rows = [];
-  top.forEach(r => r.p.conc.forEach(c => { if(!seen.has(c.n)){ seen.add(c.n); rows.push({prog:r.p.nom, ...c}); }}));
-  const intro = `<p class="hint">Concours liés à tes pistes. Les dates changent chaque année : suis les avis officiels des écoles et des ministères.</p>`;
-  const items = rows.length ? rows.map(c => `<div class="item"><h3>${c.n}</h3><div class="meta">Piste : ${c.prog}</div><p>${c.d}</p></div>`).join("")
-    : `<p>Aucun concours spécifique pour ton profil dans la liste actuelle. Regarde l'onglet Filières.</p>`;
-  const pieces = `<div class="tip"><b>Pièces souvent demandées :</b> extrait de naissance, copie de la carte d'identité, relevés de notes, attestation ou diplôme du bac, photos d'identité, certificat médical (selon le concours). Prépare-les avant les résultats.</div>`;
-  const plan = `<div class="tip">Les concours se passent en plus de Campusen : tu peux candidater aux deux, mais l'inscription sur Campusen reste ta sécurité si un concours échoue.</div>`;
-  return intro + items + pieces + plan;
+  const seen = new Set(), rows = [];
+  ranked().slice(0, 12).filter(r => r.p.conc.length).forEach(r => r.p.conc.forEach(c => { if(!seen.has(c.n)){ seen.add(c.n); rows.push({prog:r.p, ...c}); }}));
+  const items = rows.length ? rows.map(c => `<div class="item"><span class="ci" aria-hidden="true">${EMO_PROG[c.prog.id]}</span><div><h3>${c.n}</h3><div class="meta">Piste : ${c.prog.nom}</div><p>${c.d}</p></div></div>`).join("")
+    : `<div class="empty"><div class="big">📝</div><p>Aucun concours spécifique pour ton profil. Regarde l'onglet Filières.</p></div>`;
+  return `<h2 class="sec">Concours liés à tes pistes</h2><p class="hint">Les dates changent chaque année : suis les avis officiels des écoles et des ministères.</p>${items}
+  <div class="tip">📁 <b>Pièces souvent demandées :</b> extrait de naissance, copie de la carte d'identité, relevés de notes, attestation ou diplôme du bac, photos d'identité, certificat médical (selon le concours). Prépare-les avant les résultats.</div>
+  <div class="tip">🔁 Les concours se passent en plus de Campusen. Garde ton inscription sur Campusen comme sécurité si un concours ne marche pas.</div>`;
 }
 
 function viewDemarches(){
-  return `<p class="hint">Calendrier de la session 2026, donné à titre d'exemple. Le ministère publie les dates de chaque nouvelle session.</p>
-  <ol class="steps-tl">
+  return `<h2 class="sec">Les étapes</h2><p class="hint">Calendrier de la session 2026, donné à titre d'exemple. Le ministère publie les dates de chaque nouvelle session.</p>
+  <ol class="tl">
     <li><b>Avant les résultats</b><br>Choisis 3 à 5 pistes, rassemble tes pièces, repère les concours et les candidatures des écoles privées.</li>
     <li><b>Résultats du bac</b><br>En 2026, le 1er tour a été proclamé le 8 juillet.</li>
     <li><b>CPGE</b><br>Recrutement sur dossier en août pour les S1, S2 et S3 avec mention. Infos sur cpge.sn.</li>
     <li><b>Campusen</b><br>En 2026, la plateforme a été ouverte du 17 août au 13 septembre (23 h 59). Elle sert à demander une admission dans les universités publiques et les ISEP.</li>
     <li><b>Affectation et inscription</b><br>Suis ton résultat sur Campusen, puis inscris-toi à l'établissement qui t'a admis et dépose tes demandes de bourse et de logement.</li>
   </ol>
-  <h3 style="margin-top:20px">Règles Campusen à connaître</h3>
-  <div class="item"><ul style="margin:0;padding-left:20px">
+  <h2 class="sec">Règles Campusen à connaître</h2>
+  <div class="rules"><ul>
     <li>La démarche se fait uniquement sur <b>orientation.campusen.sn</b>, sans intermédiaire.</li>
     <li>L'<b>ordre de préférence</b> de tes vœux est obligatoire : mets d'abord ta filière préférée.</li>
     <li>En 2026 : jusqu'à 36 choix pour les universités et 18 pour les ISEP (3 choix dans chacun des 6 instituts : Thiès, Diamniadio, Bignona, Matam, Richard-Toll, Mbacké). Vérifie les règles de ta session.</li>
     <li>Campusen concerne les filières à admission sur dossier. Les concours et les écoles privées se gèrent à part.</li>
     <li>Elle est ouverte aux admis de la session normale du bac.</li>
   </ul></div>
-  <div class="tip">Ne mets pas que des filières très sélectives. Ajoute des choix réalistes avec ta série et ta mention, et des établissements proches de chez toi.</div>`;
+  <div class="tip">💡 Ne mets pas que des filières très sélectives. Ajoute des choix réalistes avec ta série et ta mention, et des établissements proches de chez toi.</div>`;
 }
 
-function favText(){
-  return [...state.favs].map(id => PROGS.find(p => p.id === id)).filter(Boolean)
-    .map((p,i) => `${i+1}. ${p.nom} (${p.duree})`).join("\n");
-}
-function renderFavs(){
-  $("#fav-n").textContent = state.favs.size;
-  const has = state.favs.size > 0;
-  $("#fav-empty").hidden = has; $("#fav-body").hidden = !has;
-  $("#fav-text").value = favText();
-}
-async function copyFavs(){
+/* ============ ÉVÉNEMENTS ============ */
+const NEXT = {q1:"q2", q2:"q3", q3:"q4", q4:"q5", q5:"res"};
+const PREV = {q1:"home", q2:"q1", q3:"q2", q4:"q3", q5:"q4"};
+let timer = null;
+document.addEventListener("click", e => {
+  const t = e.target.closest("button, summary"); if(!t) return;
+  const d = t.dataset;
+  if(d.serie){ state.serie = d.serie; save(); render(); clearTimeout(timer); timer = setTimeout(() => go("q2"), 260); }
+  else if(d.mention !== undefined && d.mention !== ""){ state.mention = Number(d.mention); save(); render(); clearTimeout(timer); timer = setTimeout(() => go("q3"), 260); }
+  else if(d.int){
+    if(state.interets.has(d.int)) state.interets.delete(d.int); else if(state.interets.size < 5) state.interets.add(d.int);
+    save(); render();
+  }
+  else if(d.region){ state.region = d.region; save(); render(); }
+  else if(d.budget){ state.budget = d.budget; save(); render(); }
+  else if(d.filter){ state.filter = d.filter; state.showAll = false; render(); }
+  else if(d.tab){ state.tab = d.tab; render(); window.scrollTo(0,0); }
+  else if(d.fav){
+    e.preventDefault(); e.stopPropagation();
+    if(state.favs.has(d.fav)) state.favs.delete(d.fav); else state.favs.add(d.fav);
+    save();
+    if(d.rerender){ render(); }
+    else{ const on = state.favs.has(d.fav); t.setAttribute("aria-pressed", on); t.textContent = on ? "★" : "☆"; renderNav(); }
+  }
+  else if(d.act === "start"){ go("q1"); }
+  else if(d.act === "resume"){ go("res", "fil"); }
+  else if(d.act === "back"){ clearTimeout(timer); go(PREV[state.screen]); }
+  else if(d.act === "next"){ clearTimeout(timer); go(NEXT[state.screen], state.screen === "q5" ? "fil" : null); if(state.screen === "res"){ state.filter = "all"; state.showAll = false; render(); } }
+  else if(d.act === "edit"){ go("q1"); }
+  else if(d.act === "more"){ state.showAll = true; render(); }
+  else if(d.act === "copy"){ copyList(t); }
+});
+async function copyList(btn){
   const ta = $("#fav-text");
-  try{ await navigator.clipboard.writeText(ta.value); $("#copy").textContent = "Liste copiée"; }
-  catch(e){ ta.focus(); ta.select(); $("#copy").textContent = "Sélectionnée : copie avec ton clavier"; }
+  try{ await navigator.clipboard.writeText(ta.value); btn.textContent = "✓ Liste copiée"; }
+  catch(e){ ta.focus(); ta.select(); btn.textContent = "Texte sélectionné : copie-le avec ton clavier"; }
 }
 
-/* ============ DÉMARRAGE ============ */
-load(); buildForm(); renderFavs();
+load(); render();
 </script>
 </body>
 </html>

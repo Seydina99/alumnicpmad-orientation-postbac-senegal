@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Simulateur d'orientation post-bac pour les terminales du Sénégal : filières, universités, écoles, concours et bourses selon ta série (S1, S2, S3, L1, L2, LA, STEG, STIDD).">
+<meta name="theme-color" content="#101C4A">
+<meta property="og:title" content="Après le bac au Sénégal : simulateur d'orientation">
+<meta property="og:description" content="Choisis ta série et ta mention : découvre les filières, les débouchés, les concours et les bourses.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_SN">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E">
+<title>Après le bac au Sénégal : simulateur d'orientation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F5FA; --surface:#FFFFFF; --ink:#101C4A; --muted:#4A5578; --line:#D6DBE8;
+  --primary:#101C4A; --primary-ink:#FFFFFF; --accent:#239E91; --accent-text:#16766B;
+  --sun:#F7D52D; --sun-soft:#FEF6CC; --warn:#A71930; --warn-soft:#FBE6E9; --ok-soft:#DFF3F0; --focus:#1B5FD1;
+  --bar-bg:#101C4A; --bar-ink:#FFFFFF; --bar-link:#F7D52D;
+  --f-head:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1030; --surface:#141F52; --ink:#EEF1FA; --muted:#A9B3D6; --line:#2B3772;
+  --primary:#2FB5A6; --primary-ink:#0A1030; --accent:#2FB5A6; --accent-text:#5CD6C8;
+  --sun:#F7D52D; --sun-soft:#3A3410; --warn:#FF8FA3; --warn-soft:#41172A; --ok-soft:#12403F; --focus:#8FB0FF;
+  --bar-bg:#1E2B72; --bar-ink:#FFFFFF; --bar-link:#F7D52D;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1030; --surface:#141F52; --ink:#EEF1FA; --muted:#A9B3D6; --line:#2B3772;
+  --primary:#2FB5A6; --primary-ink:#0A1030; --accent:#2FB5A6; --accent-text:#5CD6C8;
+  --sun:#F7D52D; --sun-soft:#3A3410; --warn:#FF8FA3; --warn-soft:#41172A; --ok-soft:#12403F; --focus:#8FB0FF;
+  --bar-bg:#1E2B72; --bar-ink:#FFFFFF; --bar-link:#F7D52D;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 12px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--f-head);line-height:1.15;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 56px}
+
+/* En-tête */
+.head{padding:24px 0 8px}
+.head h1{font-size:clamp(2rem,7vw,3.1rem);font-weight:800;letter-spacing:-.02em}
+.head p{max-width:56ch;color:var(--muted);margin:12px 0 0;font-size:1.05rem}
+
+/* Étapes */
+.step{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 16px;margin:16px 0}
+.step legend,.step .lg{font-family:var(--f-head);font-weight:800;font-size:1.25rem;padding:0;margin-bottom:4px}
+.step fieldset{border:0;margin:0;padding:0;min-width:0}
+.hint{color:var(--muted);font-size:.93rem;margin:2px 0 12px}
+.grid{display:grid;gap:8px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g4{grid-template-columns:repeat(2,1fr)}
+@media(min-width:560px){.g4{grid-template-columns:repeat(4,1fr)} .g2s{grid-template-columns:repeat(2,1fr)}}
+.opt{background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:10px 12px;text-align:left;min-height:48px}
+.opt b{display:block;font-family:var(--f-head);font-size:1.15rem}
+.opt span{display:block;font-size:.85rem;color:var(--muted);line-height:1.3}
+.opt[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.opt[aria-pressed="true"] span{color:var(--primary-ink);opacity:.9}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--bg);border:2px solid var(--line);border-radius:999px;padding:8px 14px;min-height:44px}
+.chip[aria-pressed="true"]{background:var(--sun-soft);border-color:var(--sun);font-weight:600}
+select{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-height:48px}
+.lbl{display:block;font-weight:600;margin:14px 0 6px}
+.note-steb{background:var(--sun-soft);border-left:4px solid var(--sun);padding:8px 12px;border-radius:6px;font-size:.92rem;margin-top:10px}
+.cta{display:block;width:100%;background:var(--primary);color:var(--primary-ink);border:0;border-radius:12px;padding:16px;font-family:var(--f-head);font-weight:800;font-size:1.2rem;margin-top:8px}
+.cta[disabled]{opacity:.45;cursor:not-allowed}
+.link{background:none;border:0;color:var(--accent-text);text-decoration:underline;padding:6px 0;font-weight:600}
+
+/* Résultats */
+#results{margin-top:28px}
+.profile{background:var(--bar-bg);color:var(--bar-ink);border-radius:14px;padding:16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+.profile p{margin:0}
+.profile .link{color:var(--bar-link)}
+.tabs{display:flex;gap:4px;margin:18px 0 12px;overflow-x:auto;border-bottom:2px solid var(--line)}
+.tab{background:none;border:0;border-bottom:4px solid transparent;padding:10px 12px;font-weight:700;white-space:nowrap;color:var(--muted);margin-bottom:-2px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.near{background:var(--ok-soft);border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:.96rem}
+.near b{font-family:var(--f-head)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-left-width:8px;border-radius:12px;margin:10px 0}
+.card.f3{border-left-color:var(--accent)} .card.f2{border-left-color:var(--sun)} .card.f1{border-left-color:var(--line)}
+.card summary{list-style:none;padding:14px;cursor:pointer;display:flex;gap:10px;align-items:flex-start}
+.card summary::-webkit-details-marker{display:none}
+.card .main{flex:1;min-width:0}
+.card h3{font-size:1.15rem;font-weight:800}
+.meta{color:var(--muted);font-size:.88rem;margin-top:3px}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.b{font-size:.78rem;font-weight:600;padding:3px 9px;border-radius:999px;border:1px solid var(--line);background:var(--bg)}
+.b.fit{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.b.fit2{background:var(--sun-soft);border-color:var(--sun)}
+.b.warn{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.star{background:none;border:0;font-size:1.5rem;line-height:1;padding:6px;min-width:44px;min-height:44px;color:var(--muted)}
+.star[aria-pressed="true"]{color:var(--warn)}
+.chev{align-self:center;color:var(--muted);transition:transform .15s}
+details[open] .chev{transform:rotate(90deg)}
+.body{padding:0 14px 16px;border-top:1px dashed var(--line)}
+.body h4{font-family:var(--f-head);font-size:1rem;margin:14px 0 4px}
+.body ul{margin:0;padding-left:20px}
+.body li{margin:2px 0}
+.alert{background:var(--warn-soft);border-left:4px solid var(--warn);padding:8px 12px;border-radius:6px;margin-top:12px;font-size:.93rem}
+.tip{background:var(--sun-soft);border-left:4px solid var(--sun);padding:8px 12px;border-radius:6px;margin-top:12px;font-size:.93rem}
+.more{display:block;margin:14px auto 0}
+
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.item h3{font-size:1.1rem}
+.item p{margin:6px 0 0}
+.item .k{font-weight:700}
+.list-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:14px 0}
+.list-box summary{font-weight:700;cursor:pointer}
+textarea{width:100%;min-height:130px;margin-top:10px;font:inherit;font-size:.9rem;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px}
+.steps-tl{margin:0;padding:0;list-style:none;border-left:3px solid var(--accent)}
+.steps-tl li{padding:2px 0 14px 16px;position:relative}
+.steps-tl li::before{content:"";position:absolute;left:-9px;top:6px;width:15px;height:15px;border-radius:50%;background:var(--surface);border:3px solid var(--accent)}
+.steps-tl b{font-family:var(--f-head)}
+.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+.strip{display:flex;height:6px;border-radius:3px;overflow:hidden;margin-top:8px}.strip i{flex:1}.strip i:nth-child(1){background:var(--ink)}.strip i:nth-child(2){background:#A71930}.strip i:nth-child(3){background:#239E91}.strip i:nth-child(4){background:#F7D52D}
+.sr{position:absolute;left:-9999px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<header class="head">
+  <h1>Après le bac, où aller&nbsp;?</h1>
+  <p>Choisis ta série, ta mention probable et ce qui t'intéresse. Le simulateur te propose des filières, des établissements, des concours et des bourses à explorer.</p>
+</header>
+
+<main>
+<section id="wizard" aria-label="Ton profil">
+
+  <div class="step">
+    <fieldset>
+      <legend>1. Ta série du bac</legend>
+      <p class="hint">Touche la série que tu passes (ou que tu as obtenue).</p>
+      <div class="grid g2 g4" id="series"></div>
+      <div class="note-steb">Au Sénégal, l'ancienne série G s'appelle aujourd'hui <b>STEG</b> (économie et gestion). Le sigle STMG est utilisé en France.</div>
+    </fieldset>
+  </div>
+
+  <div class="step">
+    <fieldset>
+      <legend>2. Ta mention probable</legend>
+      <p class="hint">Estime-la d'après tes moyennes. Elle change les filières sélectives à viser.</p>
+      <div class="grid g2 g4" id="mentions"></div>
+    </fieldset>
+  </div>
+
+  <div class="step">
+    <fieldset>
+      <legend>3. Ce qui t'attire</legend>
+      <p class="hint">Choisis jusqu'à 5 centres d'intérêt.</p>
+      <div class="chips" id="interets"></div>
+    </fieldset>
+  </div>
+
+  <div class="step">
+    <fieldset>
+      <legend>4. Ta situation</legend>
+      <label class="lbl" for="region">Où habites-tu&nbsp;?</label>
+      <select id="region"></select>
+      <span class="lbl" id="bud-l">Ta famille peut-elle payer une école privée&nbsp;?</span>
+      <div class="grid g2s" id="budget" role="group" aria-labelledby="bud-l" style="grid-template-columns:repeat(3,1fr)"></div>
+    </fieldset>
+  </div>
+
+  <button class="cta" id="go" disabled>Voir mes pistes</button>
+  <p class="hint" id="go-hint" style="text-align:center;margin-top:8px">Choisis une série et une mention pour continuer.</p>
+</section>
+
+<section id="results" hidden aria-live="polite">
+  <div class="profile">
+    <p id="profile-txt"></p>
+    <button class="link" id="edit">Modifier mon profil</button>
+  </div>
+
+  <details class="list-box" id="mylist">
+    <summary>Ma liste (<span id="fav-n">0</span>)</summary>
+    <p class="hint" id="fav-empty">Touche l'étoile d'une filière pour l'ajouter ici.</p>
+    <div id="fav-body" hidden>
+      <textarea id="fav-text" readonly aria-label="Ma liste de filières"></textarea>
+      <button class="link" id="copy">Copier la liste</button>
+    </div>
+  </details>
+
+  <div class="tabs" role="tablist" aria-label="Résultats">
+    <button class="tab" role="tab" id="t-fil" aria-selected="true" data-tab="fil">Filières</button>
+    <button class="tab" role="tab" id="t-bou" aria-selected="false" data-tab="bou">Bourses</button>
+    <button class="tab" role="tab" id="t-con" aria-selected="false" data-tab="con">Concours</button>
+    <button class="tab" role="tab" id="t-cal" aria-selected="false" data-tab="cal">Démarches</button>
+  </div>
+  <div id="panel" role="tabpanel"></div>
+</section>
+</main>
+
+<footer class="foot">
+  <p>Cet outil aide à réfléchir, il ne remplace pas les sources officielles. Les places, conditions et dates changent chaque année : vérifie toujours sur <b>orientation.campusen.sn</b>, <b>mesrisenegal.sn</b>, <b>officedubac.sn</b> et les sites des écoles. Données rassemblées en octobre 2026 ; les mentions « à confirmer » signalent des informations à contrôler auprès de l'établissement.</p>
+</footer>
+</div>
+
+<script>
+/* ============ DONNÉES ============ */
+const SERIES = [
+  {k:"S1", t:"Sciences : maths et physique"},
+  {k:"S2", t:"Sciences : physique et SVT"},
+  {k:"S3", t:"Série scientifique"},
+  {k:"L1", t:"Lettres et philosophie"},
+  {k:"L2", t:"Lettres et langues vivantes"},
+  {k:"LA", t:"Lettres et langue arabe"},
+  {k:"STEG", t:"Économie et gestion (ex-G)"},
+  {k:"STIDD", t:"Sciences et techniques industrielles"}
+];
+const MENTIONS = [
+  {k:0, t:"Passable", r:"10 à 11,99"},
+  {k:1, t:"Assez bien", r:"12 à 13,99"},
+  {k:2, t:"Bien", r:"14 à 15,99"},
+  {k:3, t:"Très bien", r:"16 et plus"},
+  {k:-1, t:"Je ne sais pas", r:"pas de résultats encore"}
+];
+const INTERETS = {
+  sante:"Santé et soigner", sciences:"Sciences et expériences", maths:"Maths et logique",
+  tech:"Informatique et numérique", ingenierie:"Construire, concevoir, réparer",
+  nature:"Agriculture, mer, environnement", eco:"Économie, argent, gestion",
+  droit:"Droit et justice", langues:"Langues", lettres:"Lire, écrire, philosophie",
+  social:"Aider, société", com:"Médias et communication", ordre:"Uniforme et sécurité",
+  sport:"Sport", art:"Arts et culture", enseigner:"Enseigner", entreprendre:"Créer mon entreprise"
+};
+const REGIONS = {
+  "Dakar":{pub:["UCAD (Dakar)","UAM (Diamniadio)","UNCHK (campus numérique)"],isep:["ISEP Diamniadio"]},
+  "Thiès":{pub:["Université de Thiès (UT)","École polytechnique de Thiès (EPT)"],isep:["ISEP Thiès"]},
+  "Diourbel / Touba":{pub:["UADB (Bambey)"],isep:["ISEP Mbacké"]},
+  "Saint-Louis / Louga / Matam":{pub:["UGB (Saint-Louis)"],isep:["ISEP Richard-Toll","ISEP Matam"]},
+  "Kaolack / Fatick / Kaffrine":{pub:["USSEIN (Kaolack)"],isep:[]},
+  "Ziguinchor / Sédhiou / Kolda":{pub:["UASZ (Ziguinchor)"],isep:["ISEP Bignona"]},
+  "Tambacounda / Kédougou":{pub:["USO (Tambacounda)"],isep:[]}
+};
+const ACCES = {campusen:"Campusen (dossier)", concours:"Concours", prive:"Écoles privées (payant)", cpge:"CPGE"};
+const ALL = ["S1","S2","S3","L1","L2","LA","STEG","STIDD"];
+
+const PROGS = [
+{id:"medecine", nom:"Médecine, pharmacie, chirurgie dentaire", dom:"Santé", duree:"6 à 8 ans",
+ ideal:["S2","S1"], ok:["S3"], min:2, int:["sante","sciences"], acces:["campusen"],
+ deb:["Médecin généraliste ou spécialiste","Pharmacien (officine, hôpital, industrie)","Chirurgien-dentiste","Santé publique, recherche biomédicale"],
+ pub:["UCAD : Faculté de médecine, pharmacie et odontologie (FMPOS)","UGB (Saint-Louis) : UFR Sciences de la santé","Université de Thiès : UFR Santé"],
+ priv:["Facultés privées de santé (vérifie leur agrément avant de t'inscrire)"],
+ conseil:"Les places sont très limitées. Ajoute des choix de repli dans ta liste Campusen (biologie, filières paramédicales).",
+ conc:[]},
+{id:"paramed", nom:"Métiers paramédicaux et du travail social", dom:"Santé et social", duree:"2 à 3 ans",
+ ideal:["S2","S3","S1"], ok:["L1","L2","STEG"], min:0, int:["sante","social"], acces:["concours","prive"],
+ deb:["Infirmier d'État, sage-femme","Technicien de laboratoire, kinésithérapeute","Assistant social, éducateur spécialisé"],
+ pub:["ENDSS (École nationale de développement sanitaire et social, Dakar)","ENTSS (travailleurs sociaux spécialisés, Thiès)"],
+ priv:["Instituts privés de santé agréés"],
+ conseil:"Beaucoup d'emplois dans les structures de santé et les ONG, avec une formation courte.",
+ conc:[{n:"Concours des écoles de santé et de travail social (ENDSS, ENTSS)",d:"Dossier et épreuves écrites. Les avis sont publiés par les écoles et le ministère concerné."}]},
+{id:"bio", nom:"Sciences de la vie, de la terre et de l'environnement", dom:"Sciences", duree:"3 ans (licence), puis master",
+ ideal:["S2","S3"], ok:["S1","STIDD"], min:0, int:["sciences","nature","sante"], acces:["campusen"],
+ deb:["Biologiste, technicien de laboratoire","Géologue, hydrologue","Chargé d'étude environnementale","Contrôle qualité (agroalimentaire, eau)","Enseignement et recherche (après master)"],
+ pub:["UCAD : Faculté des sciences et techniques (FST)","UGB, UASZ, Université de Thiès, USSEIN (selon les parcours)"],
+ priv:[],
+ conseil:"Bon plan B pour la médecine : passerelles vers les masters de santé et de biologie médicale.",
+ conc:[]},
+{id:"mathphy", nom:"Mathématiques, physique, chimie", dom:"Sciences", duree:"3 ans (licence), puis master",
+ ideal:["S1","S2"], ok:["S3"], min:0, int:["maths","sciences"], acces:["campusen"],
+ deb:["Enseignant (collège, lycée, université)","Chercheur","Ingénieur (après master ou école)","Data scientist, actuaire, analyste en banque"],
+ pub:["UCAD (FST)","UGB (UFR Sciences appliquées et technologie)","Université de Thiès, UADB, UASZ"],
+ priv:[],
+ conseil:"Parcours exigeant en maths. Il ouvre beaucoup de portes vers l'enseignement et vers les métiers de la donnée.",
+ conc:[]},
+{id:"info", nom:"Informatique, numérique et télécoms", dom:"Numérique", duree:"2 à 5 ans selon le diplôme",
+ ideal:["S1","S2","STIDD"], ok:["S3","STEG"], min:0, int:["tech","maths","entreprendre"], acces:["campusen","concours","prive"],
+ deb:["Développeur, ingénieur logiciel","Administrateur systèmes et réseaux","Cybersécurité","Data analyst","Chef de projet digital, entrepreneur tech"],
+ pub:["UCAD (FST, ESP)","UGB (UFR Sciences appliquées et technologie)","UAM (Diamniadio)","UNCHK (campus numérique)","ISEP (Thiès, Diamniadio…) : filières professionnelles selon l'institut"],
+ priv:["ESMT","ISM","Dakar Institute of Technology (à confirmer)","Autres instituts d'informatique agréés"],
+ conseil:"Complète ta formation avec des projets personnels : les employeurs regardent ce que tu sais faire.",
+ conc:[]},
+{id:"ingenieur", nom:"Ingénieur : écoles d'ingénieurs et classes préparatoires", dom:"Ingénierie", duree:"5 ans",
+ ideal:["S1","S2"], ok:["S3","STIDD"], min:2, int:["ingenierie","maths","sciences","tech"], acces:["cpge","concours","prive"],
+ deb:["Ingénieur génie civil, électrique, mécanique, informatique","Ingénieur industriel et énergie","Cadre technique dans l'industrie et les réseaux"],
+ pub:["ESP : École supérieure polytechnique (UCAD)","EPT : École polytechnique de Thiès","CPGE : classes préparatoires dans plusieurs lycées (liste sur cpge.sn)"],
+ priv:["Écoles privées d'ingénieurs et instituts technologiques (agrément à vérifier)"],
+ conseil:"Les CPGE recrutent surtout les S1, S2 et S3 avec mention. Elles durent 2 ans, puis tu passes les concours des écoles.",
+ conc:[{n:"ESP (UCAD) : recrutement des cycles d'ingénieur et de technicien supérieur",d:"Sur dossier et/ou concours selon le cycle. Consulte l'avis de recrutement de l'école."},
+       {n:"EPT (Thiès) : concours d'entrée",d:"Épreuves écrites en sciences. Calendrier annoncé chaque année par l'école."},
+       {n:"CPGE : recrutement sur dossier",d:"Dossier et résultats du bac, recrutement en août. Infos sur cpge.sn."}]},
+{id:"technique", nom:"Techniciens supérieurs : DUT, BTS (industrie, maintenance, électricité)", dom:"Technique", duree:"2 à 3 ans",
+ ideal:["STIDD","S3"], ok:["S1","S2"], min:0, int:["ingenierie","tech","entreprendre"], acces:["campusen","concours","prive"],
+ deb:["Technicien de maintenance industrielle","Électricien, technicien en énergie solaire","Chef de chantier","Responsable atelier ou production"],
+ pub:["ESP (DUT)","ISEP (Thiès, Diamniadio, Bignona, Matam, Richard-Toll, Mbacké)","Lycées techniques (BTS)"],
+ priv:["Centres et instituts techniques agréés"],
+ conseil:"Insertion rapide. Tu peux continuer ensuite en licence professionnelle ou en école d'ingénieurs.",
+ conc:[{n:"DUT de l'ESP et BTS des lycées techniques",d:"Dossier et/ou test selon l'établissement."}]},
+{id:"btp", nom:"Génie civil, BTP, architecture et urbanisme", dom:"Ingénierie", duree:"3 à 5 ans",
+ ideal:["S1","STIDD"], ok:["S2","S3"], min:0, int:["ingenierie","art","entreprendre"], acces:["campusen","concours","prive"],
+ deb:["Ingénieur ou conducteur de travaux","Architecte, urbaniste","Topographe, métreur","Promoteur immobilier"],
+ pub:["ESP et EPT (génie civil)","ISEP","Université de Thiès"],
+ priv:["Écoles privées d'architecture et de BTP (agrément à vérifier)"],
+ conseil:"Secteur porté par les chantiers publics et privés. Les stages sur chantier font la différence.",
+ conc:[]},
+{id:"energie", nom:"Énergie, pétrole, gaz et mines", dom:"Énergie", duree:"3 à 5 ans",
+ ideal:["S1","S2","STIDD"], ok:["S3"], min:1, int:["ingenierie","sciences","nature"], acces:["campusen","concours"],
+ deb:["Ingénieur pétrole et gaz","Géologue, ingénieur des mines","Technicien HSE (hygiène, sécurité, environnement)","Spécialiste en énergies renouvelables"],
+ pub:["INPG : Institut national du pétrole et du gaz, Diamniadio (admission à confirmer)","ESP, EPT","UCAD : géologie (FST)"],
+ priv:[],
+ conseil:"Secteur en structuration : les formations évoluent vite. Renseigne-toi sur les débouchés réels avant de t'engager.",
+ conc:[{n:"INPG (Diamniadio)",d:"Modalités d'admission à confirmer auprès de l'institut."}]},
+{id:"agro", nom:"Agronomie, élevage, pêche et agro-industrie", dom:"Agriculture et mer", duree:"3 à 6 ans",
+ ideal:["S2","S3"], ok:["S1","STIDD","STEG"], min:0, int:["nature","sciences","entreprendre"], acces:["concours","campusen"],
+ deb:["Ingénieur agronome","Vétérinaire","Conseiller agricole, entrepreneur agricole","Aquaculture et pêche","Agroalimentaire, transformation","Eaux et forêts"],
+ pub:["ENSA (Thiès)","ISFAR (Bambey, UADB)","EISMV : école de médecine vétérinaire (UCAD)","IUPA : pêche et aquaculture (UCAD)","ITA : technologie alimentaire (Dakar)","UASZ : agroforesterie"],
+ priv:["Instituts privés agricoles et agroalimentaires agréés"],
+ conseil:"L'agriculture et la transformation locale recrutent et se prêtent bien à l'entrepreneuriat.",
+ conc:[{n:"ENSA (Thiès) et ISFAR (Bambey)",d:"Admission sur concours ou dossier selon le cycle."},
+       {n:"EISMV (vétérinaire)",d:"Concours sélectif ouvert aux séries scientifiques. Calendrier annoncé par l'école."}]},
+{id:"statdata", nom:"Statistique, data et actuariat", dom:"Sciences et économie", duree:"3 à 5 ans",
+ ideal:["S1","S2"], ok:["S3","STEG"], min:1, int:["maths","eco","tech"], acces:["campusen","concours"],
+ deb:["Statisticien, économiste statisticien","Data analyst","Actuaire (assurance)","Chargé d'étude en banque ou institut de statistique"],
+ pub:["ENSAE (Dakar) : concours, niveau d'entrée à confirmer","UCAD et UGB : licences de mathématiques appliquées et statistique","ENEA (Dakar)"],
+ priv:[],
+ conseil:"Les métiers de la donnée sont recherchés. Ajoute l'informatique (Python, R) à ta formation.",
+ conc:[{n:"ENSAE (Dakar)",d:"Concours. Niveau d'entrée selon la formation : à confirmer sur le site de l'école."}]},
+{id:"eco", nom:"Économie et gestion (licence universitaire)", dom:"Économie et gestion", duree:"3 ans (licence), puis master",
+ ideal:["STEG"], ok:["S1","S2","S3","L1","L2","LA","STIDD"], min:0, int:["eco","entreprendre"], acces:["campusen"],
+ deb:["Économiste, analyste","Banquier, assureur","Cadre d'entreprise, consultant","Organisations internationales, ONG","Fonction publique (par concours)"],
+ pub:["UCAD : FASEG","UGB : UFR Sciences économiques et de gestion","UASZ, UADB, Université de Thiès, UAM, USSEIN"],
+ priv:[],
+ conseil:"Filière ouverte à beaucoup de séries. Vise un master spécialisé (finance, audit, développement) pour te démarquer.",
+ conc:[{n:"ENEA (Dakar)",d:"École nationale d'économie appliquée : concours. Niveau d'entrée selon la formation, à confirmer."}]},
+{id:"gestion", nom:"Commerce, marketing, banque-finance, comptabilité (écoles de gestion)", dom:"Économie et gestion", duree:"2 à 5 ans",
+ ideal:["STEG"], ok:["S1","S2","S3","L1","L2","LA","STIDD"], min:0, int:["eco","entreprendre","com"], acces:["prive"],
+ deb:["Comptable, contrôleur de gestion","Chargé de clientèle bancaire","Commercial, responsable marketing","Auditeur junior","Entrepreneur"],
+ pub:["ISEP (filières de gestion selon l'institut)"],
+ priv:["ISM","BEM Dakar","ESMT","Autres écoles de commerce agréées"],
+ conseil:"Avant de payer, vérifie l'agrément de l'école et la reconnaissance de ses diplômes. Demande aussi les tarifs complets et les réductions pour mention.",
+ conc:[]},
+{id:"droit", nom:"Droit, sciences politiques et carrières juridiques", dom:"Droit", duree:"3 à 5 ans",
+ ideal:["L1","L2","STEG"], ok:["S1","S2","S3","LA","STIDD"], min:0, int:["droit","social","lettres"], acces:["campusen"],
+ deb:["Avocat, notaire, huissier","Magistrat","Juriste d'entreprise","Diplomate, cadre administratif","Collectivités locales et organisations internationales"],
+ pub:["UCAD : Faculté des sciences juridiques et politiques","UGB : UFR Sciences juridiques et politiques","UASZ, UADB, Université de Thiès, UAM, USSEIN"],
+ priv:["Écoles privées de droit agréées"],
+ conseil:"Les concours de la magistrature et de la haute administration se passent en général après la licence ou le master.",
+ conc:[{n:"ENAM et CFJ (Centre de formation judiciaire)",d:"Généralement ouverts après une licence ou un master. Fais d'abord ta licence en droit."}]},
+{id:"lettres", nom:"Lettres, langues et civilisations", dom:"Lettres et langues", duree:"3 ans (licence), puis master",
+ ideal:["L1","L2","LA"], ok:["STEG","S1","S2","S3"], min:0, int:["langues","lettres","enseigner","com","art"], acces:["campusen"],
+ deb:["Enseignant de français, d'anglais, d'espagnol…","Traducteur, interprète","Rédacteur, éditeur","Médiateur culturel","Tourisme, organisations internationales"],
+ pub:["UCAD : Faculté des lettres et sciences humaines (FLSH)","UGB : UFR Lettres et sciences humaines","UASZ, UADB, USSEIN"],
+ priv:[],
+ conseil:"L'anglais et une 2e langue étrangère ouvrent des portes dans le tourisme, le pétrole-gaz et les organisations internationales.",
+ conc:[]},
+{id:"sh", nom:"Sciences humaines et sociales (histoire, géographie, sociologie, philosophie, psychologie)", dom:"Sciences humaines", duree:"3 ans (licence), puis master",
+ ideal:["L1","L2"], ok:["LA","STEG","S1","S2","S3"], min:0, int:["social","lettres","enseigner"], acces:["campusen"],
+ deb:["Enseignant, chercheur","Chargé d'étude, ONG, développement local","Ressources humaines","Psychologue (après master)","Aménagement du territoire, patrimoine, archives"],
+ pub:["UCAD (FLSH)","UGB (UFR Lettres et sciences humaines)","UASZ, UADB"],
+ priv:[],
+ conseil:"Parcours où l'écrit et l'esprit critique comptent. Un master ou des stages en ONG et en collectivités font ensuite la différence.",
+ conc:[]},
+{id:"arabe", nom:"Études arabes et islamiques", dom:"Lettres et langues", duree:"3 ans (licence), puis master",
+ ideal:["LA"], ok:["L1","L2","STEG"], min:0, int:["langues","lettres","enseigner"], acces:["campusen"],
+ deb:["Enseignant d'arabe","Traducteur, interprète","Finance islamique","Médias, coopération avec le monde arabe"],
+ pub:["UCAD : département d'arabe (FLSH)","UGB et autres universités publiques selon les parcours"],
+ priv:["Instituts supérieurs d'études islamiques agréés"],
+ conseil:"Associe l'arabe à une 2e compétence (droit, économie, communication) pour élargir tes débouchés.",
+ conc:[]},
+{id:"journal", nom:"Journalisme, communication et médias", dom:"Communication", duree:"3 à 5 ans",
+ ideal:["L1","L2","STEG"], ok:ALL, min:0, int:["com","lettres","langues","art"], acces:["concours","campusen","prive"],
+ deb:["Journaliste (presse, radio, télé, web)","Communicant, attaché de presse","Community manager","Relations publiques","Producteur de contenus"],
+ pub:["CESTI (UCAD) : Centre d'études des sciences et techniques de l'information","UGB et UCAD : parcours de communication selon les années"],
+ priv:["ISSIC","ISM","Autres instituts de communication agréés"],
+ conseil:"Montre des travaux : articles, vidéos, podcasts. C'est souvent ce que regardent les recruteurs et les jurys.",
+ conc:[{n:"CESTI (UCAD)",d:"Concours très sélectif : épreuves écrites (culture générale, langue). Calendrier annoncé par l'école."}]},
+{id:"enseign", nom:"Enseignement (primaire, collège, lycée)", dom:"Éducation", duree:"3 à 5 ans",
+ ideal:["L1","L2","S1","S2","S3","LA"], ok:["STEG","STIDD"], min:0, int:["enseigner","social","lettres","maths"], acces:["concours","campusen"],
+ deb:["Instituteur","Professeur de collège ou de lycée","Formateur","Inspecteur (après carrière)"],
+ pub:["Universités publiques : licence disciplinaire","FASTEF (UCAD) : formation des enseignants du secondaire","CRFPE : formation des instituteurs"],
+ priv:[],
+ conseil:"Deux voies : une licence puis la FASTEF, ou les CRFPE pour l'enseignement élémentaire. Les conditions de niveau varient selon les années.",
+ conc:[{n:"Concours des CRFPE (instituteurs)",d:"Conditions de diplôme et d'âge à confirmer dans l'avis de recrutement de l'année."},
+       {n:"Concours de la FASTEF (UCAD)",d:"Surtout ouvert après une licence dans la discipline enseignée."}]},
+{id:"uniforme", nom:"Armée, gendarmerie, police, douane, eaux et forêts", dom:"Sécurité et défense", duree:"1 à 3 ans de formation",
+ ideal:[], ok:ALL, min:0, int:["ordre","sport","social"], acces:["concours"],
+ deb:["Officier ou sous-officier des armées","Gendarme","Policier, commissaire","Douanier","Agent des eaux et forêts"],
+ pub:["École nationale des officiers d'active (Thiès)","École de la gendarmerie nationale","École nationale de police et de la formation permanente","Écoles des douanes et des eaux et forêts"],
+ priv:[],
+ conseil:"Conditions courantes : nationalité, âge limite, taille, aptitude physique, visite médicale, casier vierge. Lis bien chaque avis.",
+ conc:[{n:"Armée (officiers et sous-officiers)",d:"Dossier, tests écrits, épreuves sportives et médicales, entretien."},
+       {n:"Gendarmerie nationale",d:"Dossier, tests, sport et visite médicale. Annonces publiées par la gendarmerie."},
+       {n:"Police nationale",d:"Concours par corps (gardiens, officiers, commissaires) avec conditions de diplôme propres à chacun."},
+       {n:"Douanes, eaux et forêts",d:"Concours organisés par les directions concernées. Conditions variables selon le corps."}]},
+{id:"sport", nom:"Sport, éducation physique et métiers du sport", dom:"Sport", duree:"3 à 5 ans",
+ ideal:["S2","S3"], ok:ALL.filter(s=>s!=="S2"&&s!=="S3"), min:0, int:["sport","enseigner","sante"], acces:["concours"],
+ deb:["Professeur d'éducation physique","Entraîneur, préparateur physique","Manager sportif","Encadreur de jeunesse"],
+ pub:["INSEPS : Institut national supérieur de l'éducation populaire et du sport (UCAD)"],
+ priv:["Centres de formation sportive agréés"],
+ conseil:"Prépare la condition physique et le dossier médical en avance. Les épreuves pratiques pèsent lourd.",
+ conc:[{n:"INSEPS (UCAD)",d:"Dossier, épreuves physiques et visite médicale. Dates annoncées par l'institut."}]},
+{id:"arts", nom:"Arts, culture, patrimoine, design et audiovisuel", dom:"Arts et culture", duree:"2 à 5 ans",
+ ideal:["L1","L2"], ok:ALL.filter(s=>s!=="L1"&&s!=="L2"), min:0, int:["art","com","entreprendre","lettres"], acces:["concours","prive"],
+ deb:["Artiste, designer graphiste, styliste","Réalisateur, technicien de l'audiovisuel","Régisseur, médiateur culturel","Conservateur (après master)"],
+ pub:["École nationale des arts (Dakar)","INSAC : Institut national supérieur des arts et de la culture (Dakar)","UCAD : histoire de l'art et patrimoine"],
+ priv:["Écoles privées de design, de mode et d'audiovisuel (agrément à vérifier)"],
+ conseil:"Construis un portfolio dès maintenant. Pense aussi à la gestion de projet culturel pour vivre de ton art.",
+ conc:[{n:"École nationale des arts et INSAC",d:"Dossier, épreuve pratique et entretien. Conditions à confirmer auprès des écoles."}]},
+{id:"logistique", nom:"Tourisme, hôtellerie, transport et logistique", dom:"Services", duree:"2 à 3 ans",
+ ideal:["STEG"], ok:ALL.filter(s=>s!=="STEG"), min:0, int:["eco","langues","entreprendre"], acces:["prive","campusen"],
+ deb:["Logisticien, transitaire","Agent de voyages, guide","Responsable d'hôtel ou de restaurant","Gestionnaire portuaire ou aéroportuaire"],
+ pub:["ISEP (filières de services selon l'institut)","ENFM : formation maritime (Dakar, à confirmer)"],
+ priv:["ISM","Instituts privés de tourisme, d'hôtellerie et de transport-logistique agréés"],
+ conseil:"Le port, l'aéroport et le tourisme recrutent : les langues étrangères et les stages sont décisifs.",
+ conc:[]}
+];
+
+const BOURSES = [
+ {id:"nat", nom:"Bourse d'études nationale", type:"Sur critères sociaux et de mérite", soc:true,
+  pour:"Étudiants inscrits dans les universités publiques et certains établissements publics.",
+  comment:"Dépose ton dossier auprès des services de bourses (COUD ou COUS de ton université) après ton inscription. Montants et règles changent : vérifie sur coud.sn et mesrisenegal.sn."},
+ {id:"coud", nom:"Logement et restauration universitaires", type:"Aide sociale", soc:true,
+  pour:"Étudiants des universités publiques (COUD à Dakar, COUS dans les autres universités).",
+  comment:"Les chambres sont attribuées sur dossier et les repas sont subventionnés. Fais ta demande dès l'ouverture des inscriptions : les places partent vite."},
+ {id:"amci", nom:"Bourses du Maroc (AMCI)", type:"Étranger · licence possible après le bac",
+  pour:"Bacheliers sénégalais selon les quotas annuels de l'accord de coopération.",
+  comment:"L'appel est relayé par le ministère de l'Enseignement supérieur et l'ambassade du Maroc. Prévois relevés de notes, diplôme du bac et pièces d'état civil."},
+ {id:"csc", nom:"Bourses du gouvernement chinois (CSC)", type:"Étranger · licence possible",
+  pour:"Bacheliers remplissant les critères d'âge, de moyenne et de langue.",
+  comment:"Candidature en ligne avec dossier scolaire. Certaines filières demandent un niveau de chinois ou d'anglais."},
+ {id:"tr", nom:"Bourses de Turquie (Türkiye Bursları)", type:"Étranger · licence possible",
+  pour:"Bacheliers avec bons résultats, avec une limite d'âge.",
+  comment:"Candidature en ligne sur le portail officiel des bourses turques. Un bon niveau scolaire est exigé."},
+ {id:"hu", nom:"Bourses de Hongrie (Stipendium Hungaricum)", type:"Étranger · licence possible",
+  pour:"Candidats présentés selon l'accord entre le Sénégal et la Hongrie.",
+  comment:"Les conditions et la voie de candidature dépendent de l'accord en vigueur : confirme auprès du ministère."},
+ {id:"fr", nom:"Études en France (Campus France)", type:"Étranger · surtout à partir du master",
+  pour:"Bacheliers souhaitant étudier en France.",
+  comment:"Passe par la procédure « Études en France » de Campus France Sénégal. Les bourses sont plus fréquentes au niveau master."},
+ {id:"prive", nom:"Réductions et bourses d'écoles privées et de fondations", type:"Mérite",
+  pour:"Bacheliers avec une bonne mention, selon les écoles et les partenaires.",
+  comment:"Demande à chaque école privée si elle offre une réduction ou une bourse selon la mention. Certaines entreprises et fondations proposent aussi des aides."}
+];
+
+/* ============ ÉTAT ============ */
+const state = {serie:null, mention:null, interets:new Set(), region:"Dakar", budget:null, favs:new Set(), showAll:false, tab:"fil"};
+const $ = s => document.querySelector(s);
+
+function load(){
+  try{
+    const raw = localStorage.getItem("postbac-sn-v1");
+    if(!raw) return;
+    const d = JSON.parse(raw);
+    state.serie = d.serie ?? null; state.mention = d.mention ?? null;
+    state.interets = new Set(d.interets||[]); state.region = d.region||"Dakar";
+    state.budget = d.budget ?? null; state.favs = new Set(d.favs||[]);
+  }catch(e){}
+}
+function save(){
+  try{
+    localStorage.setItem("postbac-sn-v1", JSON.stringify({
+      serie:state.serie, mention:state.mention, interets:[...state.interets],
+      region:state.region, budget:state.budget, favs:[...state.favs]
+    }));
+  }catch(e){}
+}
+
+/* ============ FORMULAIRE ============ */
+function pressed(btn, on){ btn.setAttribute("aria-pressed", on ? "true" : "false"); }
+
+function buildForm(){
+  $("#series").innerHTML = SERIES.map(s =>
+    `<button class="opt" data-serie="${s.k}" aria-pressed="false"><b>${s.k}</b><span>${s.t}</span></button>`).join("");
+  $("#mentions").innerHTML = MENTIONS.map(m =>
+    `<button class="opt" data-mention="${m.k}" aria-pressed="false"><b>${m.t}</b><span>${m.r}</span></button>`).join("");
+  $("#interets").innerHTML = Object.entries(INTERETS).map(([k,v]) =>
+    `<button class="chip" data-int="${k}" aria-pressed="false">${v}</button>`).join("");
+  $("#region").innerHTML = Object.keys(REGIONS).map(r => `<option>${r}</option>`).join("");
+  $("#budget").innerHTML = [["oui","Oui"],["peu","Un peu"],["non","Non"]].map(([k,v]) =>
+    `<button class="opt" data-budget="${k}" aria-pressed="false"><b style="font-size:1rem">${v}</b></button>`).join("");
+  syncForm();
+}
+function syncForm(){
+  document.querySelectorAll("[data-serie]").forEach(b => pressed(b, b.dataset.serie === state.serie));
+  document.querySelectorAll("[data-mention]").forEach(b => pressed(b, state.mention !== null && Number(b.dataset.mention) === state.mention));
+  document.querySelectorAll("[data-int]").forEach(b => pressed(b, state.interets.has(b.dataset.int)));
+  document.querySelectorAll("[data-budget]").forEach(b => pressed(b, b.dataset.budget === state.budget));
+  $("#region").value = state.region;
+  const ready = state.serie !== null && state.mention !== null;
+  $("#go").disabled = !ready;
+  $("#go-hint").hidden = ready;
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("button, summary"); if(!t) return;
+  if(t.dataset.serie){ state.serie = t.dataset.serie; syncForm(); save(); }
+  else if(t.dataset.mention !== undefined){ state.mention = Number(t.dataset.mention); syncForm(); save(); }
+  else if(t.dataset.int){
+    const k = t.dataset.int;
+    if(state.interets.has(k)) state.interets.delete(k);
+    else if(state.interets.size < 5) state.interets.add(k);
+    syncForm(); save();
+  }
+  else if(t.dataset.budget){ state.budget = t.dataset.budget; syncForm(); save(); }
+  else if(t.dataset.tab){ state.tab = t.dataset.tab; renderTabs(); }
+  else if(t.dataset.fav){
+    e.preventDefault(); e.stopPropagation();
+    const id = t.dataset.fav;
+    if(state.favs.has(id)) state.favs.delete(id); else state.favs.add(id);
+    const on = state.favs.has(id);
+    t.setAttribute("aria-pressed", on ? "true" : "false");
+    t.textContent = on ? "★" : "☆";
+    save(); renderFavs();
+  }
+  else if(t.id === "go"){ showResults(); }
+  else if(t.id === "edit"){ $("#wizard").scrollIntoView({behavior:"smooth"}); }
+  else if(t.id === "more"){ state.showAll = true; renderTabs(); }
+  else if(t.id === "copy"){ copyFavs(); }
+});
+$("#region").addEventListener("change", e => { state.region = e.target.value; save(); if(!$("#results").hidden) renderTabs(); });
+
+/* ============ CALCUL ============ */
+function evaluate(p){
+  const s = state.serie;
+  const fit = p.ideal.includes(s) ? 3 : (p.ok.includes(s) ? 1.5 : 0);
+  if(!fit) return null;
+  let sc = fit;
+  const ov = p.int.filter(i => state.interets.has(i)).length;
+  sc += ov * 2.5;
+  const flags = [];
+  if(state.mention >= 0 && state.mention < p.min){ sc -= (p.min - state.mention) * 3; flags.push("mention"); }
+  const onlyPrive = p.acces.length && p.acces.every(a => a === "prive");
+  if(state.budget === "non" && onlyPrive){ sc -= 3; flags.push("payant"); }
+  else if(state.budget === "non" && p.acces.includes("prive") && p.acces.length === 1){ flags.push("payant"); }
+  return {p, sc, flags, fit, ov};
+}
+function label(r){
+  if(state.interets.size === 0) return r.fit === 3 ? ["Adapté à ta série","fit"] : ["Possible avec ta série","fit2"];
+  if(r.sc >= 8) return ["Très adapté","fit"];
+  if(r.sc >= 4.5) return ["Adapté","fit2"];
+  return ["À explorer",""];
+}
+function ranked(){
+  return PROGS.map(evaluate).filter(Boolean).sort((a,b) => b.sc - a.sc);
+}
+
+/* ============ AFFICHAGE ============ */
+function showResults(){
+  $("#results").hidden = false;
+  const s = SERIES.find(x => x.k === state.serie);
+  const m = MENTIONS.find(x => x.k === state.mention);
+  $("#profile-txt").innerHTML = `<b>${s.k}</b> · mention ${m.k === -1 ? "inconnue" : m.t.toLowerCase()} · ${state.interets.size} centre${state.interets.size>1?"s":""} d'intérêt`;
+  state.tab = "fil"; state.showAll = false;
+  renderTabs(); renderFavs();
+  $("#results").scrollIntoView({behavior:"smooth"});
+}
+
+function renderTabs(){
+  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === state.tab ? "true" : "false"));
+  const p = $("#panel");
+  if(state.tab === "fil") p.innerHTML = viewFilieres();
+  else if(state.tab === "bou") p.innerHTML = viewBourses();
+  else if(state.tab === "con") p.innerHTML = viewConcours();
+  else p.innerHTML = viewDemarches();
+}
+
+function card(r){
+  const p = r.p;
+  const [lt, lc] = label(r);
+  const acc = p.acces.map(a => `<span class="b">${ACCES[a]}</span>`).join("");
+  const warn = r.flags.includes("mention") ? `<span class="b warn">Mention exigeante</span>` : "";
+  const pay = r.flags.includes("payant") ? `<span class="b warn">Surtout payant</span>` : "";
+  const f = r.fit === 3 ? "f3" : (r.sc >= 4.5 ? "f2" : "f1");
+  const star = state.favs.has(p.id);
+  const ul = a => a.length ? `<ul>${a.map(x => `<li>${x}</li>`).join("")}</ul>` : `<p class="hint">Peu ou pas d'offre publique spécifique : vois les établissements publics ci-dessus.</p>`;
+  return `<details class="card ${f}">
+    <summary>
+      <div class="main">
+        <h3>${p.nom}</h3>
+        <div class="meta">${p.dom} · ${p.duree}</div>
+        <div class="badges"><span class="b ${lc}">${lt}</span>${acc}${warn}${pay}</div>
+      </div>
+      <button class="star" data-fav="${p.id}" aria-pressed="${star}" aria-label="${star ? "Retirer de ma liste" : "Ajouter à ma liste"} : ${p.nom}">${star ? "★" : "☆"}</button>
+      <span class="chev" aria-hidden="true">›</span>
+    </summary>
+    <div class="body">
+      <h4>Débouchés</h4>${ul(p.deb)}
+      <h4>Où étudier (public)</h4>${ul(p.pub)}
+      ${p.priv.length ? `<h4>Écoles privées</h4>${ul(p.priv)}` : ""}
+      ${r.flags.includes("mention") ? `<div class="alert">Cette filière est sélective et demande souvent au moins une mention ${["passable","assez bien","bien","très bien"][p.min]}. Garde-la en vœu ambitieux et prévois un choix de repli.</div>` : ""}
+      <div class="tip">${p.conseil}</div>
+    </div>
+  </details>`;
+}
+
+function viewFilieres(){
+  const list = ranked();
+  const reg = REGIONS[state.region];
+  const near = `<div class="near"><b>Près de chez toi (${state.region}) :</b> ${[...reg.pub, ...reg.isep].join(", ")}.<br>Étudier près de chez toi réduit le coût du logement, mais certaines filières (médecine, ingénieur, journalisme) ne sont proposées que dans quelques villes.</div>`;
+  const shown = state.showAll ? list : list.slice(0, 8);
+  const more = (!state.showAll && list.length > 8) ? `<button class="link more" id="more">Voir les ${list.length - 8} autres filières</button>` : "";
+  const intro = state.interets.size === 0 ? `<p class="hint">Astuce : choisis des centres d'intérêt pour que le classement soit plus précis.</p>` : "";
+  return near + intro + shown.map(card).join("") + more;
+}
+
+function viewBourses(){
+  let list = BOURSES.slice();
+  const needAid = state.budget === "non" || state.budget === "peu";
+  if(!needAid) list.sort((a,b) => (a.soc ? 1 : 0) - (b.soc ? 1 : 0));
+  const intro = needAid
+    ? `<p class="hint">Comme ta famille ne peut pas tout financer, commence par les aides nationales : elles dépendent surtout de ton inscription dans un établissement public.</p>`
+    : `<p class="hint">Les bourses à l'étranger sont très sélectives. Prépare ton dossier tôt.</p>`;
+  const warn = `<div class="alert">Aucune bourse officielle ne demande de payer pour être sélectionné. Méfie-toi des faux sites et des intermédiaires : passe uniquement par les sites des ministères, des ambassades et des organismes officiels.</div>`;
+  const items = list.map(b => `<div class="item"><h3>${b.nom}</h3><div class="meta">${b.type}</div>
+    <p><span class="k">Pour qui :</span> ${b.pour}</p><p><span class="k">Comment faire :</span> ${b.comment}</p></div>`).join("");
+  return intro + items + warn;
+}
+
+function viewConcours(){
+  const top = ranked().slice(0, 12).filter(r => r.p.conc.length);
+  const seen = new Set();
+  const rows = [];
+  top.forEach(r => r.p.conc.forEach(c => { if(!seen.has(c.n)){ seen.add(c.n); rows.push({prog:r.p.nom, ...c}); }}));
+  const intro = `<p class="hint">Concours liés à tes pistes. Les dates changent chaque année : suis les avis officiels des écoles et des ministères.</p>`;
+  const items = rows.length ? rows.map(c => `<div class="item"><h3>${c.n}</h3><div class="meta">Piste : ${c.prog}</div><p>${c.d}</p></div>`).join("")
+    : `<p>Aucun concours spécifique pour ton profil dans la liste actuelle. Regarde l'onglet Filières.</p>`;
+  const pieces = `<div class="tip"><b>Pièces souvent demandées :</b> extrait de naissance, copie de la carte d'identité, relevés de notes, attestation ou diplôme du bac, photos d'identité, certificat médical (selon le concours). Prépare-les avant les résultats.</div>`;
+  const plan = `<div class="tip">Les concours se passent en plus de Campusen : tu peux candidater aux deux, mais l'inscription sur Campusen reste ta sécurité si un concours échoue.</div>`;
+  return intro + items + pieces + plan;
+}
+
+function viewDemarches(){
+  return `<p class="hint">Calendrier de la session 2026, donné à titre d'exemple. Le ministère publie les dates de chaque nouvelle session.</p>
+  <ol class="steps-tl">
+    <li><b>Avant les résultats</b><br>Choisis 3 à 5 pistes, rassemble tes pièces, repère les concours et les candidatures des écoles privées.</li>
+    <li><b>Résultats du bac</b><br>En 2026, le 1er tour a été proclamé le 8 juillet.</li>
+    <li><b>CPGE</b><br>Recrutement sur dossier en août pour les S1, S2 et S3 avec mention. Infos sur cpge.sn.</li>
+    <li><b>Campusen</b><br>En 2026, la plateforme a été ouverte du 17 août au 13 septembre (23 h 59). Elle sert à demander une admission dans les universités publiques et les ISEP.</li>
+    <li><b>Affectation et inscription</b><br>Suis ton résultat sur Campusen, puis inscris-toi à l'établissement qui t'a admis et dépose tes demandes de bourse et de logement.</li>
+  </ol>
+  <h3 style="margin-top:20px">Règles Campusen à connaître</h3>
+  <div class="item"><ul style="margin:0;padding-left:20px">
+    <li>La démarche se fait uniquement sur <b>orientation.campusen.sn</b>, sans intermédiaire.</li>
+    <li>L'<b>ordre de préférence</b> de tes vœux est obligatoire : mets d'abord ta filière préférée.</li>
+    <li>En 2026 : jusqu'à 36 choix pour les universités et 18 pour les ISEP (3 choix dans chacun des 6 instituts : Thiès, Diamniadio, Bignona, Matam, Richard-Toll, Mbacké). Vérifie les règles de ta session.</li>
+    <li>Campusen concerne les filières à admission sur dossier. Les concours et les écoles privées se gèrent à part.</li>
+    <li>Elle est ouverte aux admis de la session normale du bac.</li>
+  </ul></div>
+  <div class="tip">Ne mets pas que des filières très sélectives. Ajoute des choix réalistes avec ta série et ta mention, et des établissements proches de chez toi.</div>`;
+}
+
+function favText(){
+  return [...state.favs].map(id => PROGS.find(p => p.id === id)).filter(Boolean)
+    .map((p,i) => `${i+1}. ${p.nom} (${p.duree})`).join("\n");
+}
+function renderFavs(){
+  $("#fav-n").textContent = state.favs.size;
+  const has = state.favs.size > 0;
+  $("#fav-empty").hidden = has; $("#fav-body").hidden = !has;
+  $("#fav-text").value = favText();
+}
+async function copyFavs(){
+  const ta = $("#fav-text");
+  try{ await navigator.clipboard.writeText(ta.value); $("#copy").textContent = "Liste copiée"; }
+  catch(e){ ta.focus(); ta.select(); $("#copy").textContent = "Sélectionnée : copie avec ton clavier"; }
+}
+
+/* ============ DÉMARRAGE ============ */
+load(); buildForm(); renderFavs();
+</script>
+</body>
+</html>
